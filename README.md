@@ -1,8 +1,8 @@
 # 衔远科技 · FRONTIS
 
-> 智能跃迁 · Intelligent Quantum Leap
+> 衔远大观 · AI 原生构建者
 
-衔远科技官网重塑版本，基于品牌「临界」VI 体系 v1.0 与 Frontis AI 最新产品架构构建。
+衔远科技官网，基于品牌「临界」VI 体系 v1.0 与 Frontis AI 最新产品架构构建。
 
 ## 设计理念
 
@@ -12,6 +12,7 @@
 - 无渐变 · 无投影 · 无圆角 · 无对称居中
 - cubic-bezier(0.16, 1, 0.3, 1) 跃迁曲线驱动所有动效
 - 单文件 · 零外部依赖（仅 Google Fonts）
+- 动效预算严格 1 + 2：threshold tracker（signature） + canvas strata + clip-path reveal
 
 ## 文件结构
 

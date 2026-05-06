@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="衔远科技 FRONTIS — 为企业打造一支可持续进化、云边端协同的 AI 专家团队。基于「通专融合」技术，构建 AI 原生的企业级智能涌现平台。">
+<meta name="description" content="衔远大观 · AI 原生构建者。FRONTIS 把通用大模型，转化为可持续进化的企业 AI 专家系统——基于「通专融合」与多 Agent 强协同，构建 AI 原生的企业级智能涌现平台。">
 <meta name="theme-color" content="#000000">
-<title>衔远科技 FRONTIS · 智能跃迁 / Intelligent Quantum Leap</title>
+<title>衔远科技 FRONTIS · 衔远大观 / AI 原生构建者</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,6 +114,19 @@ body {
 .mono-cyan { color: var(--threshold-cyan); }
 
 a { color: inherit; text-decoration: none; transition: color var(--d-micro) var(--leap-aux); }
+
+/* Keyboard focus — Threshold Cyan outline, brand-coherent */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--threshold-cyan);
+  outline-offset: 3px;
+}
+a:focus-visible,
+button:focus-visible,
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible {
+  outline-offset: 4px;
+}
 
 /* ============================================================
    Threshold scroll-tracker — fixed 2px cyan line ALWAYS visible
@@ -304,85 +317,45 @@ body.is-loaded .hero__eyebrow { opacity: 1; transform: none; }
 
 /* The Display — 智能跃迁 with English on the side */
 .hero__display {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: end;
-  gap: clamp(16px, 2.5vw, 36px);
-  margin-bottom: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, 1vw, 14px);
+  margin-bottom: var(--s-6);
 }
-.hero__display-cn {
+.hero__display-line {
   font-family: var(--font-cn);
   font-weight: 900;
-  font-size: var(--t-display);
-  line-height: 0.92;
   letter-spacing: 0.005em;
-  color: var(--pure-white);
-  position: relative;
-}
-.hero__display-cn span {
   display: block;
   overflow: hidden;
+  position: relative;
 }
-.hero__display-cn span > b {
-  display: block;
-  font-weight: 900;
+.hero__display-line > * { display: inline-block; }
+
+.hero__display-line--lead {
+  font-size: var(--t-display);
+  line-height: 0.92;
+  color: var(--pure-white);
+  opacity: 0;
   transform: translateY(110%);
   animation: leapInUp 980ms var(--leap) 360ms forwards;
 }
-.hero__display-cn span:nth-child(2) > b { animation-delay: 460ms; }
-
-.hero__display-en {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(20px, 1.8vw, 28px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+.hero__display-line--sub {
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.0;
   color: var(--threshold-cyan);
-  padding-bottom: 14px;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-orientation: mixed;
+  font-weight: 800;
+  position: relative;
   opacity: 0;
-  transition: opacity 600ms var(--leap) 800ms;
-  white-space: nowrap;
+  transform: translateY(110%);
+  animation: leapInUp 980ms var(--leap) 540ms forwards;
 }
-body.is-loaded .hero__display-en { opacity: 1; }
 
 @keyframes leapInUp {
-  0% { transform: translateY(110%); }
-  100% { transform: translateY(0); }
-}
-
-/* Statement block under display */
-.hero__statement {
-  max-width: 720px;
-  margin-bottom: var(--s-6);
-  border-left: 2px solid var(--threshold-cyan);
-  padding-left: 20px;
-  opacity: 0;
-  transform: translateX(-12px);
-  transition: opacity 600ms var(--leap) 700ms, transform 600ms var(--leap) 700ms;
-}
-body.is-loaded .hero__statement { opacity: 1; transform: none; }
-.hero__statement-lead {
-  font-family: var(--font-cn);
-  font-size: clamp(20px, 1.7vw, 26px);
-  font-weight: 500;
-  line-height: 1.38;
-  color: var(--pure-white);
-  margin-bottom: 12px;
-}
-.hero__statement-lead em {
-  font-style: normal;
-  color: var(--threshold-cyan);
-  font-weight: 700;
-}
-.hero__statement-sub {
-  font-family: var(--font-cn);
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--residual-light);
-  font-weight: 400;
+  0% { transform: translateY(110%); opacity: 0; }
+  1% { opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
 /* CTA cluster */
@@ -472,6 +445,13 @@ body.is-loaded .hero__meta { opacity: 1; transform: none; }
   margin-right: 8px;
   vertical-align: middle;
 }
+.hero__meta-sub {
+  display: block;
+  margin-top: 4px;
+  color: var(--grey-mid);
+  font-size: 12px;
+  font-weight: 400;
+}
 
 /* HERO bottom rail — fixed before-state ground */
 .hero__rail {
@@ -516,8 +496,8 @@ body.is-loaded .hero__rail { opacity: 1; }
 }
 .hero__rail-scroll span {
   display: block; width: 1px; height: 24px;
-  background: linear-gradient(transparent, var(--threshold-cyan));
-  animation: scrollHint 1.6s ease-in-out infinite;
+  background: var(--threshold-cyan);
+  animation: scrollHint 1.6s var(--leap) infinite;
 }
 @keyframes scrollHint {
   0% { transform: scaleY(0); transform-origin: top; }
@@ -2237,35 +2217,6 @@ body.is-loaded #hero-canvas { opacity: 1; }
    Each character lives in its own clip-mask. They snap into
    position with stagger, leap easing. Hard cut, not fade.
    ============================================================ */
-.hero__display-cn {
-  position: relative;
-}
-.hero-char-row {
-  display: flex;
-  overflow: visible;
-  line-height: 0.92;
-}
-.hero-char {
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-  line-height: 0.95;
-}
-.hero-char > b {
-  display: inline-block;
-  font-weight: 900;
-  transform: translateY(110%);
-  transition: transform 920ms var(--leap);
-}
-body.is-loaded .hero-char > b { transform: translateY(0); }
-
-/* Stagger delays — JS adds them, but provide CSS fallback */
-.hero-char:nth-child(1) > b { transition-delay: 320ms; }
-.hero-char:nth-child(2) > b { transition-delay: 400ms; }
-.hero-char:nth-child(3) > b { transition-delay: 480ms; }
-.hero-char:nth-child(4) > b { transition-delay: 560ms; }
-.hero-char:nth-child(5) > b { transition-delay: 640ms; }
-
 /* ============================================================
    Section head — animated cyan top border (line draws in)
    Currently it appears immediately. Make it draw on reveal.
@@ -2345,25 +2296,6 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
 }
 
 /* ============================================================
-   Magnetic — applies subtle cursor pull (≤ 6px). Used only on
-   primary CTA in hero + final CTA section. Single signature use.
-   ============================================================ */
-.magnetic {
-  display: inline-flex;
-  transition: transform 360ms var(--leap-aux);
-  will-change: transform;
-}
-
-/* ============================================================
-   Scramble text — used by JS for mono labels. Just needs a
-   monospaced container with reserved width.
-   ============================================================ */
-.scramble {
-  font-family: var(--font-mono);
-  display: inline-block;
-}
-
-/* ============================================================
    Card hover indicator — small arrow that translates on hover
    For .scenario, .arch-row, .loop-card, .edition. Brand-correct
    directional energy.
@@ -2392,28 +2324,10 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
 .edition.--featured::after { display: none; }
 .arch-row::after { color: var(--threshold-cyan); bottom: 24px; right: 24px; }
 
-/* ============================================================
-   Cyan-line precision marker on L4 stack — follows cursor
-   inside the stack. Single instance, brand-aligned.
-   ============================================================ */
-.l4-stack { position: relative; --track-y: 0px; }
-.l4-stack::before {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--threshold-cyan);
-  top: var(--track-y);
-  opacity: 0;
-  transition: opacity 220ms var(--leap-aux), top 90ms linear;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  z-index: 5;
-}
-.l4-stack.--track::before { opacity: 0.85; }
+.l4-stack { position: relative; }
 
 /* ============================================================
-   Key number scramble container — reserves width for variable
+   Key number container — reserves width for variable
    character set. Tabular figures keep cell stable.
    ============================================================ */
 .assets-cell__num,
@@ -2454,7 +2368,7 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
   .reveal { clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
   .reveal.--stagger > * { clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
   body.is-loaded .threshold-tracker { transform: none; }
-  body.is-loaded .hero-char > b { transform: none; }
+  .hero__display-line { animation: none !important; opacity: 1 !important; transform: none !important; }
   .marquee-track { animation: none !important; }
   #hero-canvas { display: none; }
   .scroll-progress { display: none; }
@@ -2505,31 +2419,18 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
 </nav>
 
 <!-- ===================== HERO ===================== -->
-<section class="hero" aria-label="智能跃迁">
+<section class="hero" aria-label="衔远大观 · AI 原生构建者">
   <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="hero__strata" aria-hidden="true"><span></span></div>
   <div class="hero__inner">
     <div class="hero__main">
-      <div class="hero__eyebrow"><span class="scramble" data-scramble="FRONTIS · 临界 / THRESHOLD V1.0">FRONTIS · 临界 / THRESHOLD V1.0</span></div>
+      <div class="hero__eyebrow">FRONTIS · 临界 / THRESHOLD V1.0</div>
       <h1 class="hero__display">
-        <span class="hero__display-cn" data-char-split>
-          <span class="hero-char-row">
-            <span class="hero-char"><b>智</b></span>
-            <span class="hero-char"><b>能</b></span>
-          </span>
-          <span class="hero-char-row">
-            <span class="hero-char"><b>跃</b></span>
-            <span class="hero-char"><b>迁</b></span>
-          </span>
-        </span>
-        <span class="hero__display-en">INTELLIGENT QUANTUM LEAP</span>
+        <span class="hero__display-line hero__display-line--lead">衔远大观</span>
+        <span class="hero__display-line hero__display-line--sub">AI 原生构建者</span>
       </h1>
-      <div class="hero__statement">
-        <p class="hero__statement-lead">为企业打造一支可持续进化、云边端协同的 <em>AI 专家团队</em>。</p>
-        <p class="hero__statement-sub">不是给你一个工具，是给你一支和你的业务一起生长的 AI 专业团队。基于「通专融合」技术，构建 AI 原生的企业级智能涌现平台。</p>
-      </div>
       <div class="hero__cta">
-        <span class="magnetic" data-magnetic><a href="#cta" class="btn-primary"><span>申请演示</span></a></span>
+        <a href="#cta" class="btn-primary"><span>申请演示</span></a>
         <a href="#architecture" class="btn-ghost">查看产品架构</a>
       </div>
       <div class="hero__tags">
@@ -2551,7 +2452,7 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
       </div>
       <div class="hero__meta-block">
         <div class="hero__meta-label">FOUNDED · BY</div>
-        <div class="hero__meta-value">2021 · 周伯文教授<br><span style="color:var(--grey-mid); font-size:12px;">Transformer 奠基人之一</span></div>
+        <div class="hero__meta-value">2021 · 周伯文教授<span class="hero__meta-sub">Transformer 奠基人之一</span></div>
       </div>
       <div class="hero__meta-block">
         <div class="hero__meta-label">TARGET · 2027</div>
@@ -3336,7 +3237,7 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
     <div class="cta-section__rail reveal">
       <p class="cta-section__sub">让你的企业从『知道 AI 时代来了』跃迁至『已经活在 AI 时代里』。我们为你打造一支随业务一起生长的 AI 专家团队。</p>
       <div class="cta-section__btns">
-        <span class="magnetic" data-magnetic><a href="mailto:contact@frontis.cn" class="btn-primary"><span>申请演示</span></a></span>
+        <a href="mailto:contact@frontis.cn" class="btn-primary"><span>申请演示</span></a>
         <a href="mailto:partnership@frontis.cn" class="btn-ghost">商务合作</a>
       </div>
     </div>
@@ -3510,65 +3411,15 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
       });
     }, { threshold: 0.05 });
 
-    window.addEventListener('resize', resize, { passive: true });
+    var resizeTimer = null;
+    function debouncedResize() {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 140);
+    }
+    window.addEventListener('resize', debouncedResize, { passive: true });
     resize();
     io.observe(canvas);
   })();
-
-  /* ---------- 2. SCRAMBLE TEXT — characters cycle then settle ----------
-     Used on mono labels & key numbers. Brand: precision, computed feel. */
-  var SCRAMBLE_CHARS = '01XΔ#FRONTIS·∇▲▼◆◇/\\—|';
-  function scramble(el, finalText, opts) {
-    opts = opts || {};
-    var dur = opts.dur || 720;
-    var delay = opts.delay || 0;
-    var stepMs = 28;
-    var len = finalText.length;
-    var locked = new Array(len).fill(false);
-    var lockEvery = stepMs * 2;
-    var t0 = performance.now() + delay;
-
-    function frame(now) {
-      var dt = now - t0;
-      if (dt < 0) { requestAnimationFrame(frame); return; }
-      var p = Math.min(dt / dur, 1);
-      var lockUntil = Math.floor(p * len);
-      var out = '';
-      for (var i = 0; i < len; i++) {
-        if (i < lockUntil || locked[i]) {
-          locked[i] = true;
-          out += finalText.charAt(i);
-        } else {
-          var ch = finalText.charAt(i);
-          if (ch === ' ' || ch === '\n') { out += ch; }
-          else if (/[一-鿿]/.test(ch)) {
-            // CJK char: brief flicker through 2-3 brand glyphs
-            out += '·∇△'.charAt((Math.random() * 3) | 0);
-          } else {
-            out += SCRAMBLE_CHARS.charAt((Math.random() * SCRAMBLE_CHARS.length) | 0);
-          }
-        }
-      }
-      el.textContent = out;
-      if (p < 1) requestAnimationFrame(frame);
-      else el.textContent = finalText;
-    }
-    requestAnimationFrame(frame);
-  }
-
-  /* Apply scramble to data-scramble elements when they enter viewport */
-  if (!prefersReduced && 'IntersectionObserver' in window) {
-    var sIo = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (!e.isIntersecting) return;
-        sIo.unobserve(e.target);
-        var el = e.target;
-        var txt = el.dataset.scramble || el.textContent;
-        scramble(el, txt, { dur: 800 });
-      });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('[data-scramble]').forEach(function(el) { sIo.observe(el); });
-  }
 
   /* ---------- 3. SCROLL PROGRESS BAR ---------- */
   (function progressBar() {
@@ -3662,80 +3513,6 @@ body.is-loaded .hero-char > b { transform: translateY(0); }
     document.querySelectorAll('[data-count]').forEach(function(el) { nIo.observe(el); });
   }
 
-  /* ---------- 9. MAGNETIC CTA — subtle cursor pull (≤6px) ----------
-     Single signature use on hero primary CTA + final CTA section. */
-  if (!prefersReduced && window.matchMedia('(hover: hover)').matches) {
-    document.querySelectorAll('[data-magnetic]').forEach(function(wrap) {
-      var STRENGTH = 0.18; // max ≈ 6px on a 60px nudge
-      var cur = { x: 0, y: 0 };
-      var target = { x: 0, y: 0 };
-      var raf = null;
-
-      function loop() {
-        cur.x += (target.x - cur.x) * 0.18;
-        cur.y += (target.y - cur.y) * 0.18;
-        wrap.style.transform = 'translate(' + cur.x.toFixed(2) + 'px,' + cur.y.toFixed(2) + 'px)';
-        if (Math.abs(target.x - cur.x) > 0.05 || Math.abs(target.y - cur.y) > 0.05) {
-          raf = requestAnimationFrame(loop);
-        } else {
-          raf = null;
-        }
-      }
-
-      wrap.addEventListener('mousemove', function(e) {
-        var r = wrap.getBoundingClientRect();
-        var cx = r.left + r.width / 2;
-        var cy = r.top + r.height / 2;
-        target.x = (e.clientX - cx) * STRENGTH;
-        target.y = (e.clientY - cy) * STRENGTH;
-        if (!raf) raf = requestAnimationFrame(loop);
-      });
-      wrap.addEventListener('mouseleave', function() {
-        target.x = 0; target.y = 0;
-        if (!raf) raf = requestAnimationFrame(loop);
-      });
-    });
-  }
-
-  /* ---------- 10. CHAR-SPLIT staggered reveal ----------
-     Hero display already markup-split. Apply explicit transition-delay
-     to make it more "deterministic" feeling. */
-  document.querySelectorAll('[data-char-split]').forEach(function(node) {
-    var chars = node.querySelectorAll('.hero-char > b');
-    chars.forEach(function(c, i) {
-      c.style.transitionDelay = (320 + i * 90) + 'ms';
-    });
-  });
-
-  /* ---------- 11. L4 CURSOR PRECISION MARKER ---------- */
-  if (!prefersReduced) {
-    var stack = document.querySelector('.l4-stack');
-    if (stack) {
-      var line = stack.querySelector(':scope > .l4-row__hover-line');
-      if (!line) {
-        // No-op: visual handled by row hover bg already; this is a hook
-        // for future enhancement. The ::before of .l4-stack reserves space.
-      }
-      stack.addEventListener('mouseenter', function() { stack.classList.add('--track'); });
-      stack.addEventListener('mouseleave', function() { stack.classList.remove('--track'); });
-      stack.addEventListener('mousemove', function(e) {
-        var r = stack.getBoundingClientRect();
-        var y = e.clientY - r.top;
-        stack.style.setProperty('--track-y', y + 'px');
-      });
-    }
-  }
-
-  /* ---------- 12. HERO META: scramble the strong values once ---------- */
-  if (!prefersReduced) {
-    setTimeout(function() {
-      document.querySelectorAll('.hero__meta-value strong').forEach(function(el, i) {
-        var final = el.textContent.trim();
-        if (!/^\d+/.test(final)) return;
-        scramble(el, final, { dur: 900, delay: i * 120 });
-      });
-    }, 1200);
-  }
 })();
 </script>
 
