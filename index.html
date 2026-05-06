@@ -420,7 +420,7 @@ body.is-loaded .hero__meta { opacity: 1; transform: none; }
   border-left: 2px solid rgba(255,255,255,0.12);
   padding: 4px 0 4px 16px;
 }
-.hero__meta-block.--cyan { border-left-color: var(--threshold-cyan); }
+.hero__meta-block.is-cyan { border-left-color: var(--threshold-cyan); }
 .hero__meta-label {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -535,7 +535,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   width: 4px; height: 4px;
   background: var(--threshold-cyan);
 }
-.hero__tag.--orange::before { background: var(--energy-orange); }
+.hero__tag.is-orange::before { background: var(--energy-orange); }
 
 /* ============================================================
    Section frame — universal section wrapper
@@ -730,19 +730,19 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   .l4-row { grid-template-columns: 60px 1fr; gap: 6px 12px; }
   .l4-row > *:nth-child(3), .l4-row > *:nth-child(4) { grid-column: 2; }
 }
-.l4-row.--us {
+.l4-row.is-us {
   background: var(--quantum-black);
   color: var(--pure-white);
   position: relative;
 }
-.l4-row.--us::before {
+.l4-row.is-us::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
   background: var(--threshold-cyan);
 }
-.l4-row.--us::after {
+.l4-row.is-us::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -756,14 +756,14 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--quantum-black);
   letter-spacing: 0.06em;
 }
-.l4-row.--us .l4-row__layer { color: var(--threshold-cyan); }
+.l4-row.is-us .l4-row__layer { color: var(--threshold-cyan); }
 .l4-row__name {
   font-family: var(--font-cn);
   font-size: 15px;
   font-weight: 700;
   color: var(--quantum-black);
 }
-.l4-row.--us .l4-row__name { color: var(--pure-white); }
+.l4-row.is-us .l4-row__name { color: var(--pure-white); }
 .l4-row__players {
   font-family: var(--font-cn);
   font-size: 13px;
@@ -771,7 +771,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   font-weight: 400;
   line-height: 1.5;
 }
-.l4-row.--us .l4-row__players { color: var(--residual-light); font-weight: 500; }
+.l4-row.is-us .l4-row__players { color: var(--residual-light); font-weight: 500; }
 .l4-row__feat {
   font-family: var(--font-cn);
   font-size: 12px;
@@ -779,7 +779,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   text-align: right;
   letter-spacing: 0.02em;
 }
-.l4-row.--us .l4-row__feat { color: var(--threshold-cyan); font-weight: 600; }
+.l4-row.is-us .l4-row__feat { color: var(--threshold-cyan); font-weight: 600; }
 @media (max-width: 900px) {
   .l4-row__feat { text-align: left; }
 }
@@ -794,7 +794,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   border-radius: 50%;
   display: none;
 }
-.l4-row.--us .l4-row__marker {
+.l4-row.is-us .l4-row__marker {
   display: block;
 }
 
@@ -1011,7 +1011,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   padding: var(--s-5);
   position: relative;
 }
-.meta-mode.--deep {
+.meta-mode.is-deep {
   background: var(--quantum-black);
   color: var(--pure-white);
 }
@@ -1026,7 +1026,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   text-transform: uppercase;
   color: var(--grey-mid);
 }
-.meta-mode.--deep .meta-mode__head { color: var(--threshold-cyan); }
+.meta-mode.is-deep .meta-mode__head { color: var(--threshold-cyan); }
 .meta-mode__title {
   font-family: var(--font-cn);
   font-weight: 900;
@@ -1042,16 +1042,16 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--energy-orange);
   margin-bottom: var(--s-3);
 }
-.meta-mode.--deep .meta-mode__quick { color: var(--energy-orange); }
+.meta-mode.is-deep .meta-mode__quick { color: var(--energy-orange); }
 .meta-mode__body {
   font-family: var(--font-cn);
   font-size: 14px;
   line-height: 1.7;
   color: var(--grey-decay);
 }
-.meta-mode.--deep .meta-mode__body { color: var(--residual-light); }
+.meta-mode.is-deep .meta-mode__body { color: var(--residual-light); }
 .meta-mode__body strong { color: var(--quantum-black); font-weight: 700; }
-.meta-mode.--deep .meta-mode__body strong { color: var(--pure-white); }
+.meta-mode.is-deep .meta-mode__body strong { color: var(--pure-white); }
 
 .meta-loops {
   margin-top: var(--s-5);
@@ -1066,7 +1066,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   background: var(--residual-light);
   position: relative;
 }
-.meta-loop.--out { background: var(--quantum-black); color: var(--pure-white); border-color: var(--quantum-black); }
+.meta-loop.is-out { background: var(--quantum-black); color: var(--pure-white); border-color: var(--quantum-black); }
 .meta-loop__tag {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -1087,7 +1087,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   line-height: 1.7;
   color: var(--grey-decay);
 }
-.meta-loop.--out .meta-loop__body { color: var(--residual-light); }
+.meta-loop.is-out .meta-loop__body { color: var(--residual-light); }
 
 /* Pipeline: 五阶段进化生产线 */
 .pipeline {
@@ -1128,8 +1128,8 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   padding: var(--s-3) var(--s-2);
   position: relative;
 }
-.pipeline-step.--leap { background: var(--quantum-black); color: var(--pure-white); }
-.pipeline-step.--leap-2 { background: #0F1316; color: var(--pure-white); }
+.pipeline-step.is-leap { background: var(--quantum-black); color: var(--pure-white); }
+.pipeline-step.is-leap-2 { background: #0F1316; color: var(--pure-white); }
 .pipeline-step__index {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -1137,7 +1137,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--grey-mid);
   margin-bottom: 8px;
 }
-.pipeline-step.--leap .pipeline-step__index, .pipeline-step.--leap-2 .pipeline-step__index { color: var(--threshold-cyan); }
+.pipeline-step.is-leap .pipeline-step__index, .pipeline-step.is-leap-2 .pipeline-step__index { color: var(--threshold-cyan); }
 .pipeline-step__title {
   font-family: var(--font-cn);
   font-weight: 900;
@@ -1156,7 +1156,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   margin-left: 6px;
   vertical-align: middle;
 }
-.pipeline-step.--leap .pipeline-step__title b, .pipeline-step.--leap-2 .pipeline-step__title b {
+.pipeline-step.is-leap .pipeline-step__title b, .pipeline-step.is-leap-2 .pipeline-step__title b {
   background: var(--energy-orange);
   color: var(--quantum-black);
 }
@@ -1173,7 +1173,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   line-height: 1.55;
   color: var(--grey-decay);
 }
-.pipeline-step.--leap .pipeline-step__body, .pipeline-step.--leap-2 .pipeline-step__body { color: var(--residual-light); }
+.pipeline-step.is-leap .pipeline-step__body, .pipeline-step.is-leap-2 .pipeline-step__body { color: var(--residual-light); }
 
 /* ============================================================
    SECTION 05 — 通专融合 Timeline
@@ -1330,8 +1330,8 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--grey-mid);
   letter-spacing: 0;
 }
-.assets-cell__num.--cyan { color: var(--threshold-cyan); }
-.assets-cell__num.--orange { color: var(--energy-orange); }
+.assets-cell__num.is-cyan { color: var(--threshold-cyan); }
+.assets-cell__num.is-orange { color: var(--energy-orange); }
 .assets-cell__label {
   font-family: var(--font-cn);
   font-size: 14px;
@@ -1524,7 +1524,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   letter-spacing: 0.06em;
   margin-bottom: var(--s-3);
 }
-.role.--boss .role__chip { background: var(--energy-orange); color: var(--pure-white); }
+.role.is-boss .role__chip { background: var(--energy-orange); color: var(--pure-white); }
 .role__body {
   font-family: var(--font-cn);
   font-size: 14px;
@@ -1626,7 +1626,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   font-weight: 700;
   color: var(--quantum-black);
 }
-.loop-card__metric-row em.--orange { color: var(--energy-orange); }
+.loop-card__metric-row em.is-orange { color: var(--energy-orange); }
 .loop-card__big {
   font-family: var(--font-display);
   font-weight: 900;
@@ -1641,7 +1641,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--grey-mid);
   font-weight: 600;
 }
-.loop-card__big.--orange { color: var(--energy-orange); }
+.loop-card__big.is-orange { color: var(--energy-orange); }
 .loop-card__cap {
   font-family: var(--font-cn);
   font-size: 12px;
@@ -1704,7 +1704,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
 .edition:hover {
   border-color: var(--threshold-cyan);
 }
-.edition.--featured {
+.edition.is-featured {
   background: var(--quantum-black);
   color: var(--pure-white);
   border-color: var(--quantum-black);
@@ -1721,8 +1721,8 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   display: inline-flex;
   align-self: flex-start;
 }
-.edition.--starter .edition__band { background: var(--residual-light); color: var(--quantum-black); }
-.edition.--featured .edition__band { background: var(--energy-orange); color: var(--pure-white); }
+.edition.is-starter .edition__band { background: var(--residual-light); color: var(--quantum-black); }
+.edition.is-featured .edition__band { background: var(--energy-orange); color: var(--pure-white); }
 
 .edition__body {
   padding: var(--s-4) var(--s-3);
@@ -1744,7 +1744,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--grey-mid);
   margin-bottom: var(--s-3);
 }
-.edition.--featured .edition__tag { color: var(--threshold-cyan); }
+.edition.is-featured .edition__tag { color: var(--threshold-cyan); }
 .edition__detail {
   font-family: var(--font-cn);
   font-size: 14px;
@@ -1752,7 +1752,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--grey-decay);
   margin-bottom: var(--s-3);
 }
-.edition.--featured .edition__detail { color: var(--residual-light); }
+.edition.is-featured .edition__detail { color: var(--residual-light); }
 
 .edition__list {
   list-style: none;
@@ -1768,7 +1768,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   position: relative;
   color: var(--quantum-black);
 }
-.edition.--featured .edition__list li {
+.edition.is-featured .edition__list li {
   border-bottom-color: rgba(255,255,255,0.08);
   color: var(--residual-light);
 }
@@ -1794,7 +1794,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   color: var(--quantum-black);
   margin-right: 6px;
 }
-.edition.--featured .edition__price strong { color: var(--threshold-cyan); }
+.edition.is-featured .edition__price strong { color: var(--threshold-cyan); }
 .edition__price small { font-family: var(--font-mono); font-size: 11px; }
 
 .edition__cta {
@@ -1811,9 +1811,9 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   letter-spacing: 0.04em;
   transition: all var(--d-micro) var(--leap-aux);
 }
-.edition.--featured .edition__cta { background: var(--threshold-cyan); color: var(--quantum-black); }
+.edition.is-featured .edition__cta { background: var(--threshold-cyan); color: var(--quantum-black); }
 .edition__cta:hover { background: var(--threshold-cyan); color: var(--quantum-black); }
-.edition.--featured .edition__cta:hover { background: var(--pure-white); }
+.edition.is-featured .edition__cta:hover { background: var(--pure-white); }
 .edition__cta::after { content: '→'; }
 
 /* ============================================================
@@ -2108,7 +2108,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
   /* Initial state: opacity + translate only.
      We do NOT use clip-path: inset(0 100% 0 0) here because that
      zeroes the element's intersection rect → IntersectionObserver
-     reports ratio 0 → callback never fires → --in is never added →
+     reports ratio 0 → callback never fires → is-in is never added →
      self-locking dead state. (Diagnosed 2026-05-06, was an inherited bug.)
      Brand hard-cut feel still comes through via leap-curve easing
      and a fast clip-path stage applied on --in. */
@@ -2120,46 +2120,46 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
     clip-path 900ms var(--leap);
   will-change: opacity, transform;
 }
-.reveal.--in {
+.reveal.is-in {
   opacity: 1;
   clip-path: inset(0 0 0 0);
   -webkit-clip-path: inset(0 0 0 0);
   transform: none;
 }
 /* Variant: from below — bottom-up cut (matches "rising past threshold") */
-.reveal.--up {
+.reveal.is-up {
   transform: translateY(28px);
 }
-.reveal.--up.--in {
+.reveal.is-up.is-in {
   transform: none;
 }
 /* Variant: drop from above — top-down cut */
-.reveal.--down {
+.reveal.is-down {
   transform: translateY(-12px);
 }
-.reveal.--down.--in {
+.reveal.is-down.is-in {
   transform: none;
 }
 
-.reveal.--stagger > * {
+.reveal.is-stagger > * {
   opacity: 0;
   transform: translateY(16px);
   transition:
     opacity 620ms var(--leap),
     transform 760ms var(--leap);
 }
-.reveal.--in.--stagger > * {
+.reveal.is-in.is-stagger > * {
   opacity: 1;
   transform: none;
 }
-.reveal.--stagger > *:nth-child(1) { transition-delay: 0ms; }
-.reveal.--stagger > *:nth-child(2) { transition-delay: 70ms; }
-.reveal.--stagger > *:nth-child(3) { transition-delay: 140ms; }
-.reveal.--stagger > *:nth-child(4) { transition-delay: 210ms; }
-.reveal.--stagger > *:nth-child(5) { transition-delay: 280ms; }
-.reveal.--stagger > *:nth-child(6) { transition-delay: 350ms; }
-.reveal.--stagger > *:nth-child(7) { transition-delay: 420ms; }
-.reveal.--stagger > *:nth-child(8) { transition-delay: 490ms; }
+.reveal.is-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.reveal.is-stagger > *:nth-child(2) { transition-delay: 70ms; }
+.reveal.is-stagger > *:nth-child(3) { transition-delay: 140ms; }
+.reveal.is-stagger > *:nth-child(4) { transition-delay: 210ms; }
+.reveal.is-stagger > *:nth-child(5) { transition-delay: 280ms; }
+.reveal.is-stagger > *:nth-child(6) { transition-delay: 350ms; }
+.reveal.is-stagger > *:nth-child(7) { transition-delay: 420ms; }
+.reveal.is-stagger > *:nth-child(8) { transition-delay: 490ms; }
 
 /* ============================================================
    Scroll progress — top-of-viewport 1px cyan line that fills
@@ -2184,7 +2184,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
 .nav {
   transition: background 280ms var(--leap-aux), border-color 280ms var(--leap-aux);
 }
-.nav.--solid {
+.nav.is-solid {
   background: rgba(0,0,0,0.92);
   border-bottom-color: rgba(0,193,212,0.18);
 }
@@ -2238,7 +2238,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
   transform-origin: 0 50%;
   transition: transform 900ms var(--leap);
 }
-.s-head.reveal.--in::before, .reveal.--in .s-head::before { transform: scaleX(1); }
+.s-head.reveal.is-in::before, .reveal.is-in .s-head::before { transform: scaleX(1); }
 
 /* ============================================================
    Marquee — horizontal cyan-edged ticker band between sections
@@ -2253,7 +2253,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
   padding: 18px 0;
   position: relative;
 }
-.marquee-band.--light {
+.marquee-band.is-light {
   background: var(--pure-white);
   color: var(--quantum-black);
   border-bottom-color: rgba(0,0,0,0.06);
@@ -2283,7 +2283,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
   background: var(--threshold-cyan);
   flex: none;
 }
-.marquee-track > span.--orange::after {
+.marquee-track > span.is-orange::after {
   background: var(--energy-orange);
 }
 .marquee-track i {
@@ -2323,7 +2323,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
 }
 
 /* Disable arrow on featured edition since it has its own CTA */
-.edition.--featured::after { display: none; }
+.edition.is-featured::after { display: none; }
 .arch-row::after { color: var(--threshold-cyan); bottom: 24px; right: 24px; }
 
 .l4-stack { position: relative; }
@@ -2368,7 +2368,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
     transition-duration: 0.01ms !important;
   }
   .reveal { opacity: 1 !important; clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
-  .reveal.--stagger > * { opacity: 1 !important; clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
+  .reveal.is-stagger > * { opacity: 1 !important; clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
   body.is-loaded .threshold-tracker { transform: none; }
   .hero__display-line { animation: none !important; opacity: 1 !important; transform: none !important; }
   .marquee-track { animation: none !important; }
@@ -2439,16 +2439,16 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <div class="hero__tag">L4 能力转化层</div>
         <div class="hero__tag">通专融合 RL 全栈</div>
         <div class="hero__tag">公有云 · 私有化</div>
-        <div class="hero__tag --orange">V0.7 已上线</div>
+        <div class="hero__tag is-orange">V0.7 已上线</div>
       </div>
     </div>
 
     <aside class="hero__meta" aria-label="关键事实">
-      <div class="hero__meta-block --cyan">
+      <div class="hero__meta-block is-cyan">
         <div class="hero__meta-label">AGENT ASSETS</div>
         <div class="hero__meta-value"><strong>73</strong>专家 Agent · 206 Skill</div>
       </div>
-      <div class="hero__meta-block --cyan">
+      <div class="hero__meta-block is-cyan">
         <div class="hero__meta-label">SCENARIOS</div>
         <div class="hero__meta-value"><strong>19</strong>大业务场景 · 研产供销</div>
       </div>
@@ -2483,7 +2483,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="manifesto-grid reveal --stagger">
+    <div class="manifesto-grid reveal is-stagger">
       <article class="manifesto-cell">
         <div class="manifesto-cell__index">01 · NOT</div>
         <div class="manifesto-cell__formula"><b>跃迁</b><s>≠</s><i>转型</i></div>
@@ -2518,14 +2518,14 @@ body.is-loaded #hero-canvas { opacity: 1; }
     <span>智能跃迁</span>
     <span>INTELLIGENT QUANTUM LEAP</span>
     <span>临界 · <i>THE THRESHOLD</i></span>
-    <span class="--orange">能量积聚 · ENERGY ACCUMULATION</span>
+    <span class="is-orange">能量积聚 · ENERGY ACCUMULATION</span>
     <span>通专融合 · GENERAL × SPECIALIST</span>
     <span>L4 能力转化层</span>
     <span>已经活在 AI 时代里</span>
     <span>智能跃迁</span>
     <span>INTELLIGENT QUANTUM LEAP</span>
     <span>临界 · <i>THE THRESHOLD</i></span>
-    <span class="--orange">能量积聚 · ENERGY ACCUMULATION</span>
+    <span class="is-orange">能量积聚 · ENERGY ACCUMULATION</span>
     <span>通专融合 · GENERAL × SPECIALIST</span>
     <span>L4 能力转化层</span>
     <span>已经活在 AI 时代里</span>
@@ -2564,7 +2564,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <span class="l4-row__players">Dify · Coze · LangGraph · CrewAI · 百炼</span>
         <span class="l4-row__feat">工具层 · 训练弱</span>
       </div>
-      <div class="l4-row --us">
+      <div class="l4-row is-us">
         <span class="l4-row__layer">L4 ←</span>
         <span class="l4-row__name">能力转化层</span>
         <span class="l4-row__players">FRONTIS · Meta-Agent × RL 全栈 × 模拟环境</span>
@@ -2591,7 +2591,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </div>
 
-    <div class="l4-callout reveal --stagger">
+    <div class="l4-callout reveal is-stagger">
       <article class="l4-callout__card">
         <div class="l4-callout__head">WHY NOT L3</div>
         <h3 class="l4-callout__title">为什么 L3 大模型厂商不做 L4？</h3>
@@ -2623,7 +2623,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="arch-stack reveal --stagger">
+    <div class="arch-stack reveal is-stagger">
       <article class="arch-row">
         <div class="arch-row__id">
           <b>CIP</b>
@@ -2676,7 +2676,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </article>
     </div>
 
-    <div class="arch-foot reveal --stagger">
+    <div class="arch-foot reveal is-stagger">
       <div class="arch-foot__cell">
         <div class="arch-foot__head">CAPABILITY · 01</div>
         <div class="arch-foot__title">通专融合</div>
@@ -2729,7 +2729,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <div class="meta-mode__quick">分钟级交付</div>
         <p class="meta-mode__body">基于已积累的构建经验，直接组装最优 Agent 配置（<strong>Skill 组合 + 协作策略 + 记忆方案</strong>）。供应链客户积累的经验，分钟级迁移到下一个供应链客户。<br><br>核心：<strong>经验复用</strong> —— 检索最相似场景，基于已有最优模式组装微调，跨客户、跨行业经验迁移。</p>
       </article>
-      <article class="meta-mode --deep">
+      <article class="meta-mode is-deep">
         <div class="meta-mode__head">
           <span>MODE · 02</span>
           <span>DEEP</span>
@@ -2740,13 +2740,13 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </article>
     </div>
 
-    <div class="meta-loops reveal --stagger">
-      <article class="meta-loop --in">
+    <div class="meta-loops reveal is-stagger">
+      <article class="meta-loop is-in">
         <div class="meta-loop__tag">SKILL EVOLUTION · 内循环</div>
         <h4 class="meta-loop__title">SkillAgent 精进</h4>
         <p class="meta-loop__body">Work Agent 在 Bootcamp 中通过五阶段生产线持续精进 —— 业务执行的每条轨迹、专家修正的每个信号都被转化为<strong>进化的训练数据</strong>。反馈来自客户专家标注、专家预测对比、测试集验证、实际业务回测 —— 所有效果提升都有客观可量化的验证。</p>
       </article>
-      <article class="meta-loop --out">
+      <article class="meta-loop is-out">
         <div class="meta-loop__tag" style="color:var(--energy-orange)">META-COGNITION · 外循环</div>
         <h4 class="meta-loop__title">MetaAgent 认知升级</h4>
         <p class="meta-loop__body">多场景构建经验反向优化 MetaAgent 的元认知。三类经验积累：<strong>任务拆解模式 · Skill 组合策略 · RL 训练超参</strong>。构建的 Agent 越多，制造精度越高 —— 网络效应，不是线性积累。</p>
@@ -2777,13 +2777,13 @@ body.is-loaded #hero-canvas { opacity: 1; }
           <div class="pipeline-step__cap">部署后持续进化</div>
           <p class="pipeline-step__body">三级在线进化漏斗 L1→L2→L3，SkillBank 持续累积组织经验。</p>
         </div>
-        <div class="pipeline-step --leap">
+        <div class="pipeline-step is-leap">
           <div class="pipeline-step__index">THE LEAP · 阈值跃迁</div>
           <div class="pipeline-step__title">Skill-RL <b>衔远独占</b></div>
           <div class="pipeline-step__cap">RL 参数固化</div>
           <p class="pipeline-step__body">RL 将成熟 Skill 知识固化为模型参数。Context → Weight 跃迁：推理更快、执行更稳，<strong>成本降一个量级</strong>。</p>
         </div>
-        <div class="pipeline-step --leap-2">
+        <div class="pipeline-step is-leap-2">
           <div class="pipeline-step__index">衔远独占 · 在线持续</div>
           <div class="pipeline-step__title">Online Skill-RL <b>衔远独占</b></div>
           <div class="pipeline-step__cap">在线持续进化</div>
@@ -2807,7 +2807,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="timeline-track reveal --stagger">
+    <div class="timeline-track reveal is-stagger">
       <article class="timeline-node">
         <div class="timeline-node__year">2016</div>
         <div class="timeline-node__phase">PHASE 01 · ANI 起点</div>
@@ -2862,9 +2862,9 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="assets-rail reveal --stagger">
+    <div class="assets-rail reveal is-stagger">
       <div class="assets-cell">
-        <div class="assets-cell__num --cyan">73</div>
+        <div class="assets-cell__num is-cyan">73</div>
         <div class="assets-cell__label">专家 Agent</div>
         <div class="assets-cell__sub">覆盖产 · 供 · 销 · 通四大方向</div>
       </div>
@@ -2879,7 +2879,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <div class="assets-cell__sub">从市场洞察到供应链 · 从制造到医疗</div>
       </div>
       <div class="assets-cell">
-        <div class="assets-cell__num --orange">10K</div>
+        <div class="assets-cell__num is-orange">10K</div>
         <div class="assets-cell__label">服务企业 · 2027 目标</div>
         <div class="assets-cell__sub">≥70% 年均研发投入 · &gt;100% CAGR</div>
       </div>
@@ -2969,7 +2969,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="roles-grid reveal --stagger">
+    <div class="roles-grid reveal is-stagger">
       <article class="role">
         <div class="role__index">ROLE · 01</div>
         <div class="role__icon" aria-hidden="true">
@@ -2984,7 +2984,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <p class="role__body">使用 Frontis AI 专家生成方案。将过去需多部门协作 <strong>1—2 周的工作</strong>，压缩至 <strong>1 小时出初稿</strong>。在工作台调用各类 AI 专家 Agent，像拥有一支随时在线的专家团队。</p>
       </article>
 
-      <article class="role --boss">
+      <article class="role is-boss">
         <div class="role__index">ROLE · 02</div>
         <div class="role__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="#00C1D4" stroke-width="2">
@@ -3035,16 +3035,16 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="loop-grid reveal --stagger">
+    <div class="loop-grid reveal is-stagger">
       <article class="loop-card">
         <div class="loop-card__index">01 · R&D</div>
         <div class="loop-card__hero">研</div>
         <h3 class="loop-card__title">研究开发</h3>
         <div class="loop-card__metric">
           <div class="loop-card__metric-row">研究原创性提升 <em>20%</em></div>
-          <div class="loop-card__metric-row">新品研发周期降低 <em class="--orange">30%</em></div>
+          <div class="loop-card__metric-row">新品研发周期降低 <em class="is-orange">30%</em></div>
         </div>
-        <div class="loop-card__big --orange">20<small>%</small></div>
+        <div class="loop-card__big is-orange">20<small>%</small></div>
         <div class="loop-card__cap">AI 辅助文献综述与创新发现</div>
       </article>
 
@@ -3053,7 +3053,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <div class="loop-card__hero">产</div>
         <h3 class="loop-card__title">生产建造</h3>
         <div class="loop-card__metric">
-          <div class="loop-card__metric-row"><em class="--orange">30 min</em> 编制复杂约束最优计划</div>
+          <div class="loop-card__metric-row"><em class="is-orange">30 min</em> 编制复杂约束最优计划</div>
           <div class="loop-card__metric-row">工程延误受控率 <em>100%</em></div>
           <div class="loop-card__metric-row">每项目提效 <em>30 万</em></div>
         </div>
@@ -3078,7 +3078,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         <div class="loop-card__hero">销</div>
         <h3 class="loop-card__title">市场营销</h3>
         <div class="loop-card__metric">
-          <div class="loop-card__metric-row"><em class="--orange">1600+</em> KOS 管理</div>
+          <div class="loop-card__metric-row"><em class="is-orange">1600+</em> KOS 管理</div>
           <div class="loop-card__metric-row">内容生成 · 营销转化</div>
         </div>
         <div class="loop-card__big">1600<small>+</small></div>
@@ -3106,8 +3106,8 @@ body.is-loaded #hero-canvas { opacity: 1; }
       </div>
     </header>
 
-    <div class="editions-grid reveal --stagger">
-      <article class="edition --starter">
+    <div class="editions-grid reveal is-stagger">
+      <article class="edition is-starter">
         <span class="edition__band">直接下载 · 应用内付费</span>
         <div class="edition__body">
           <h3 class="edition__name">个人版</h3>
@@ -3127,7 +3127,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
         </div>
       </article>
 
-      <article class="edition --featured">
+      <article class="edition is-featured">
         <span class="edition__band">线上订阅 · 开箱即用</span>
         <div class="edition__body">
           <h3 class="edition__name">团队版</h3>
@@ -3447,7 +3447,7 @@ body.is-loaded #hero-canvas { opacity: 1; }
     if (!nav) return;
     var ticking = false;
     function update() {
-      nav.classList.toggle('--solid', window.scrollY > 60);
+      nav.classList.toggle('is-solid', window.scrollY > 60);
       ticking = false;
     }
     window.addEventListener('scroll', function() {
@@ -3456,32 +3456,66 @@ body.is-loaded #hero-canvas { opacity: 1; }
     update();
   })();
 
-  /* ---------- 5. SCROLL REVEAL — clip-path hard cut, IntersectionObserver ---------- */
-  if ('IntersectionObserver' in window) {
-    var rIo = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('--in');
-          rIo.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(function(el) { rIo.observe(el); });
+  /* ---------- 5. SCROLL REVEAL — IntersectionObserver + scroll-fallback ----------
+     IO is the primary trigger. On certain rendering engines (some embedded
+     webviews, fast/instant scroll, content-visibility lazy regions) IO may
+     miss elements that briefly enter the viewport. We add a scroll-event
+     fallback that re-checks visible state on every scroll tick (rAF-debounced).
+     Once an element gets `is-in` it stays — there's no un-reveal. */
+  (function revealSystem() {
+    var revealEls = function() { return document.querySelectorAll('.reveal:not(.is-in)'); };
 
-    /* Safety net: if any .reveal is already inside viewport when the page
-       loads but IO hasn't fired (e.g. because the element's geometry has
-       been clipped to zero by some style), force-reveal it after 600ms.
-       Cheap insurance against the self-locking hidden state we hit before. */
-    setTimeout(function() {
+    function trigger(el) {
+      if (!el.classList.contains('is-in')) {
+        el.classList.add('is-in');
+        if (rIo) try { rIo.unobserve(el); } catch (e) {}
+      }
+    }
+
+    function check() {
       var vh = window.innerHeight || document.documentElement.clientHeight;
-      document.querySelectorAll('.reveal:not(.--in)').forEach(function(el) {
+      // Trigger when top is within 90% of viewport (gives slight pre-trigger)
+      revealEls().forEach(function(el) {
         var r = el.getBoundingClientRect();
-        if (r.top < vh && r.bottom > 0) el.classList.add('--in');
+        if (r.top < vh * 0.92 && r.bottom > 0) trigger(el);
       });
-    }, 600);
-  } else {
-    document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('--in'); });
-  }
+    }
+
+    var rIo = null;
+    if ('IntersectionObserver' in window) {
+      rIo = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) trigger(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(function(el) { rIo.observe(el); });
+    } else {
+      // No IO support → reveal everything synchronously
+      document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('is-in'); });
+      return;
+    }
+
+    // Initial above-fold safety check
+    setTimeout(check, 60);
+    setTimeout(check, 600);
+
+    // Scroll fallback (rAF-debounced)
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function() { check(); ticking = false; });
+      }
+    }, { passive: true });
+
+    // Resize fallback
+    window.addEventListener('resize', function() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function() { check(); ticking = false; });
+      }
+    }, { passive: true });
+  })();
 
   /* ---------- 6. THRESHOLD TRACKER POSITION ---------- */
   (function tracker() {
