@@ -1,0 +1,3147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="衔远科技 FRONTIS — 为企业打造一支可持续进化、云边端协同的 AI 专家团队。基于「通专融合」技术，构建 AI 原生的企业级智能涌现平台。">
+<meta name="theme-color" content="#000000">
+<title>衔远科技 FRONTIS · 智能跃迁 / Intelligent Quantum Leap</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   FRONTIS · 临界 · 跃迁
+   Design tokens — strict alignment with VI Guide v1.0
+   ============================================================ */
+:root {
+  /* Brand color system — six-color */
+  --quantum-black: #000000;
+  --threshold-cyan: #00C1D4;
+  --pure-white: #FFFFFF;
+  --residual-light: #F0F2F4;
+  --structure-grey: #3D4145;
+  --energy-orange: #FA5F26;
+
+  /* Greyscale extension */
+  --grey-border: #D0D3D8;
+  --grey-decay: #4C5456;
+  --grey-mid: #8C8C8C;
+  --grey-faded: #D8D8D8;
+
+  /* Surface tokens */
+  --bg: var(--quantum-black);
+  --bg-light: var(--pure-white);
+  --bg-residual: var(--residual-light);
+  --fg: var(--pure-white);
+  --fg-secondary: var(--residual-light);
+  --fg-tertiary: var(--grey-mid);
+  --fg-quaternary: var(--grey-decay);
+
+  /* Typography */
+  --font-display: "Geist", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "Geist", "Noto Sans SC", -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-cn: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  /* Type ramp · per VI guide H0–CAPTION + clamp() fluid */
+  --t-display: clamp(64px, 9.5vw, 160px);   /* H0 · 96-128 brand ref */
+  --t-h1: clamp(40px, 5.6vw, 88px);          /* H1 · chapter */
+  --t-h2: clamp(28px, 3.4vw, 52px);          /* H2 · module */
+  --t-h3: clamp(20px, 1.9vw, 28px);          /* H3 · card */
+  --t-body: clamp(15px, 1.05vw, 17px);       /* Body */
+  --t-caption: clamp(11px, 0.85vw, 13px);    /* Caption */
+  --t-mono: clamp(12px, 0.95vw, 14px);       /* Mono */
+
+  /* Spacing · 8pt grid */
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-5: 48px;
+  --s-6: 64px;
+  --s-7: 96px;
+  --s-8: 128px;
+  --s-9: 160px;
+
+  /* Section vertical rhythm */
+  --section-y: clamp(80px, 10vw, 160px);
+
+  /* Edge thickness — VI guide specifies 2px standard for The Edge */
+  --edge-thin: 1px;
+  --edge: 2px;
+  --edge-bold: 3px;
+
+  /* Brand easing — 跃迁曲线 */
+  --leap: cubic-bezier(0.16, 1, 0.3, 1);
+  --leap-aux: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Durations · per motion guide */
+  --d-micro: 180ms;
+  --d-element: 420ms;
+  --d-leap: 980ms;
+  --d-scene: 520ms;
+
+  /* Maximum content width — anti-symmetry, slightly off */
+  --max-w: 1480px;
+  --gutter: clamp(24px, 5vw, 96px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+*::selection { background: var(--threshold-cyan); color: var(--quantum-black); }
+
+html { scroll-behavior: smooth; }
+html, body { background: var(--quantum-black); }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+}
+
+/* Chinese characters use Noto Sans SC; English uses Geist with baseline alignment */
+.cn { font-family: var(--font-cn); letter-spacing: 0.01em; }
+.en { font-family: var(--font-display); letter-spacing: -0.02em; }
+.mono { font-family: var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; font-size: var(--t-mono); color: var(--grey-mid); }
+.mono-cyan { color: var(--threshold-cyan); }
+
+a { color: inherit; text-decoration: none; transition: color var(--d-micro) var(--leap-aux); }
+
+/* ============================================================
+   Threshold scroll-tracker — fixed 2px cyan line ALWAYS visible
+   This is THE Edge: the brand's principal graphic device.
+   ============================================================ */
+.threshold-tracker {
+  position: fixed;
+  left: 0; right: 0;
+  top: 64px; /* aligns with nav baseline */
+  height: 2px;
+  background: var(--threshold-cyan);
+  z-index: 50;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1200ms var(--leap);
+  pointer-events: none;
+}
+body.is-loaded .threshold-tracker { transform: scaleX(1); }
+
+/* ============================================================
+   NAV — thin, dark, baseline-aligned to the threshold
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-5);
+}
+.nav__logo { display: flex; align-items: center; gap: 12px; height: 32px; }
+.nav__logo svg { height: 26px; width: auto; }
+.nav__logo-cn {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: var(--pure-white);
+}
+.nav__logo-en {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--grey-mid);
+  margin-top: 1px;
+}
+.nav__links {
+  display: flex;
+  gap: var(--s-5);
+  justify-content: center;
+}
+.nav__links a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--residual-light);
+  position: relative;
+  padding: 4px 0;
+}
+.nav__links a:hover { color: var(--threshold-cyan); }
+.nav__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 8px 18px;
+  background: var(--threshold-cyan);
+  color: var(--quantum-black);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-family: var(--font-cn);
+  transition: transform var(--d-micro) var(--leap-aux);
+}
+.nav__cta:hover { background: var(--quantum-black); color: var(--threshold-cyan); outline: 2px solid var(--threshold-cyan); }
+.nav__cta::after { content: '→'; font-family: var(--font-display); font-weight: 800; }
+
+@media (max-width: 900px) {
+  .nav__links { display: none; }
+}
+
+/* ============================================================
+   HERO · The Threshold — primary brand gesture
+   Above-line: open after-state (light)
+   Below-line: dense before-state (dark, structured info)
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--quantum-black);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* The Strata — 3px/2px/1px lines accumulating before-state */
+.hero__strata {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 240px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 700ms var(--leap) 800ms, transform 700ms var(--leap) 800ms;
+}
+body.is-loaded .hero__strata { opacity: 1; transform: translateY(0); }
+.hero__strata::before, .hero__strata::after, .hero__strata span {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  background: rgba(255,255,255,0.04);
+}
+.hero__strata::before { bottom: 12px; height: 3px; background: rgba(255,255,255,0.08); }
+.hero__strata::after { bottom: 64px; height: 2px; background: rgba(255,255,255,0.04); }
+.hero__strata span { bottom: 132px; height: 1px; background: rgba(0,193,212,0.4); }
+
+.hero__inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: clamp(80px, 12vh, 140px) var(--gutter) var(--s-7);
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+  gap: var(--s-6);
+  align-items: end;
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 1024px) {
+  .hero__inner { grid-template-columns: 1fr; gap: var(--s-5); }
+}
+
+/* Eyebrow — small caps tag */
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+  margin-bottom: var(--s-4);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms var(--leap) 200ms, transform 600ms var(--leap) 200ms;
+}
+body.is-loaded .hero__eyebrow { opacity: 1; transform: none; }
+.hero__eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--threshold-cyan);
+}
+
+/* The Display — 智能跃迁 with English on the side */
+.hero__display {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: end;
+  gap: clamp(16px, 2.5vw, 36px);
+  margin-bottom: var(--s-5);
+}
+.hero__display-cn {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: var(--t-display);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  color: var(--pure-white);
+  position: relative;
+}
+.hero__display-cn span {
+  display: block;
+  overflow: hidden;
+}
+.hero__display-cn span > b {
+  display: block;
+  font-weight: 900;
+  transform: translateY(110%);
+  animation: leapInUp 980ms var(--leap) 360ms forwards;
+}
+.hero__display-cn span:nth-child(2) > b { animation-delay: 460ms; }
+
+.hero__display-en {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(20px, 1.8vw, 28px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--threshold-cyan);
+  padding-bottom: 14px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-orientation: mixed;
+  opacity: 0;
+  transition: opacity 600ms var(--leap) 800ms;
+  white-space: nowrap;
+}
+body.is-loaded .hero__display-en { opacity: 1; }
+
+@keyframes leapInUp {
+  0% { transform: translateY(110%); }
+  100% { transform: translateY(0); }
+}
+
+/* Statement block under display */
+.hero__statement {
+  max-width: 720px;
+  margin-bottom: var(--s-6);
+  border-left: 2px solid var(--threshold-cyan);
+  padding-left: 20px;
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 600ms var(--leap) 700ms, transform 600ms var(--leap) 700ms;
+}
+body.is-loaded .hero__statement { opacity: 1; transform: none; }
+.hero__statement-lead {
+  font-family: var(--font-cn);
+  font-size: clamp(20px, 1.7vw, 26px);
+  font-weight: 500;
+  line-height: 1.38;
+  color: var(--pure-white);
+  margin-bottom: 12px;
+}
+.hero__statement-lead em {
+  font-style: normal;
+  color: var(--threshold-cyan);
+  font-weight: 700;
+}
+.hero__statement-sub {
+  font-family: var(--font-cn);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--residual-light);
+  font-weight: 400;
+}
+
+/* CTA cluster */
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms var(--leap) 920ms, transform 600ms var(--leap) 920ms;
+}
+body.is-loaded .hero__cta { opacity: 1; transform: none; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px 14px 26px;
+  background: var(--threshold-cyan);
+  color: var(--quantum-black);
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  position: relative;
+  transition: all var(--d-micro) var(--leap-aux);
+}
+.btn-primary:hover { background: var(--pure-white); }
+.btn-primary::after { content: '→'; font-family: var(--font-display); font-weight: 800; transition: transform var(--d-micro) var(--leap); }
+.btn-primary:hover::after { transform: translateX(4px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: transparent;
+  color: var(--pure-white);
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: all var(--d-micro) var(--leap-aux);
+}
+.btn-ghost:hover { border-color: var(--threshold-cyan); color: var(--threshold-cyan); }
+
+/* HERO meta column — rail of evidence */
+.hero__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding-bottom: 8px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms var(--leap) 1100ms, transform 600ms var(--leap) 1100ms;
+}
+body.is-loaded .hero__meta { opacity: 1; transform: none; }
+
+.hero__meta-block {
+  border-left: 2px solid rgba(255,255,255,0.12);
+  padding: 4px 0 4px 16px;
+}
+.hero__meta-block.--cyan { border-left-color: var(--threshold-cyan); }
+.hero__meta-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.hero__meta-value {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--pure-white);
+  line-height: 1.4;
+}
+.hero__meta-value strong {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  color: var(--threshold-cyan);
+  letter-spacing: -0.02em;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* HERO bottom rail — fixed before-state ground */
+.hero__rail {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: var(--s-3) var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 600ms var(--leap) 1300ms;
+}
+body.is-loaded .hero__rail { opacity: 1; }
+.hero__rail-state {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero__rail-state::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--threshold-cyan);
+  border-radius: 50%;
+  animation: nodePulse 1800ms ease-in-out infinite;
+}
+@keyframes nodePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hero__rail-scroll {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--residual-light);
+}
+.hero__rail-scroll span {
+  display: block; width: 1px; height: 24px;
+  background: linear-gradient(transparent, var(--threshold-cyan));
+  animation: scrollHint 1.6s ease-in-out infinite;
+}
+@keyframes scrollHint {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* Hero leap — after-load rebar tags */
+.hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--s-3);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms var(--leap) 1000ms, transform 600ms var(--leap) 1000ms;
+}
+body.is-loaded .hero__tags { opacity: 1; transform: none; }
+.hero__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--residual-light);
+  text-transform: uppercase;
+}
+.hero__tag::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--threshold-cyan);
+}
+.hero__tag.--orange::before { background: var(--energy-orange); }
+
+/* ============================================================
+   Section frame — universal section wrapper
+   ============================================================ */
+.section {
+  position: relative;
+  padding: var(--section-y) var(--gutter);
+}
+.section--dark { background: var(--quantum-black); color: var(--pure-white); }
+.section--light { background: var(--pure-white); color: var(--quantum-black); }
+.section--residual { background: var(--residual-light); color: var(--quantum-black); }
+
+.section__inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+/* Section header pattern */
+.s-head {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr);
+  gap: clamp(24px, 4vw, 80px);
+  align-items: end;
+  margin-bottom: var(--s-7);
+  border-top: 2px solid var(--threshold-cyan);
+  padding-top: 24px;
+}
+@media (max-width: 900px) {
+  .s-head { grid-template-columns: 1fr; gap: var(--s-3); }
+}
+.s-head__index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+}
+.s-head__index span { color: var(--grey-mid); margin-right: 12px; }
+.s-head__title {
+  font-family: var(--font-cn);
+  font-size: clamp(32px, 4.4vw, 64px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.005em;
+}
+.s-head__title em {
+  font-style: normal;
+  color: var(--threshold-cyan);
+}
+.section--light .s-head__title em { color: var(--threshold-cyan); }
+.s-head__sub {
+  font-family: var(--font-cn);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--grey-decay);
+  margin-top: 18px;
+  max-width: 640px;
+}
+.section--dark .s-head__sub { color: var(--residual-light); }
+
+/* ============================================================
+   SECTION 01 — Manifesto · 跃迁 ≠ 转型/升级/进化
+   ============================================================ */
+.manifesto {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+@media (max-width: 900px) {
+  .manifesto-grid { grid-template-columns: 1fr; }
+}
+.manifesto-cell {
+  padding: var(--s-5) var(--s-4);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  transition: background var(--d-micro) var(--leap-aux);
+}
+.manifesto-cell:last-child { border-right: none; }
+@media (max-width: 900px) {
+  .manifesto-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .manifesto-cell:last-child { border-bottom: none; }
+}
+.manifesto-cell:hover { background: rgba(0,193,212,0.04); }
+.manifesto-cell::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--threshold-cyan);
+  transition: width 420ms var(--leap);
+}
+.manifesto-cell:hover::before { width: 100%; }
+.manifesto-cell__index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--grey-mid);
+  margin-bottom: var(--s-3);
+}
+.manifesto-cell__formula {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.05;
+  margin-bottom: var(--s-3);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.manifesto-cell__formula b {
+  color: var(--pure-white);
+}
+.manifesto-cell__formula s {
+  text-decoration: none;
+  color: var(--energy-orange);
+  font-family: var(--font-display);
+  font-weight: 900;
+}
+.manifesto-cell__formula i {
+  font-style: normal;
+  color: var(--grey-decay);
+  font-weight: 500;
+}
+.manifesto-cell__detail {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--residual-light);
+}
+
+.manifesto-anchor {
+  margin-top: var(--s-7);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--s-5);
+  align-items: end;
+}
+@media (max-width: 900px) { .manifesto-anchor { grid-template-columns: 1fr; } }
+.manifesto-anchor__main {
+  font-family: var(--font-cn);
+  font-size: clamp(24px, 2.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.35;
+  max-width: 880px;
+}
+.manifesto-anchor__main em {
+  font-style: normal;
+  color: var(--threshold-cyan);
+}
+.manifesto-anchor__sig {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--grey-mid);
+  border-left: 2px solid var(--threshold-cyan);
+  padding-left: 12px;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   SECTION 02 — L4 Strategic Position
+   ============================================================ */
+.l4 {
+  background: var(--pure-white);
+  color: var(--quantum-black);
+}
+.l4-stack {
+  border: 1px solid var(--grey-border);
+  background: var(--pure-white);
+  position: relative;
+}
+.l4-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1.4fr 1fr;
+  align-items: center;
+  padding: var(--s-3) var(--s-3);
+  border-bottom: 1px solid var(--grey-border);
+  position: relative;
+  transition: background var(--d-micro) var(--leap-aux);
+}
+.l4-row:last-child { border-bottom: none; }
+@media (max-width: 900px) {
+  .l4-row { grid-template-columns: 60px 1fr; gap: 6px 12px; }
+  .l4-row > *:nth-child(3), .l4-row > *:nth-child(4) { grid-column: 2; }
+}
+.l4-row.--us {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  position: relative;
+}
+.l4-row.--us::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--threshold-cyan);
+}
+.l4-row.--us::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--threshold-cyan);
+}
+.l4-row__layer {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--quantum-black);
+  letter-spacing: 0.06em;
+}
+.l4-row.--us .l4-row__layer { color: var(--threshold-cyan); }
+.l4-row__name {
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--quantum-black);
+}
+.l4-row.--us .l4-row__name { color: var(--pure-white); }
+.l4-row__players {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--grey-decay);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.l4-row.--us .l4-row__players { color: var(--residual-light); font-weight: 500; }
+.l4-row__feat {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--grey-mid);
+  text-align: right;
+  letter-spacing: 0.02em;
+}
+.l4-row.--us .l4-row__feat { color: var(--threshold-cyan); font-weight: 600; }
+@media (max-width: 900px) {
+  .l4-row__feat { text-align: left; }
+}
+
+.l4-row__marker {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px;
+  background: var(--energy-orange);
+  border-radius: 50%;
+  display: none;
+}
+.l4-row.--us .l4-row__marker {
+  display: block;
+}
+
+.l4-callout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+@media (max-width: 900px) { .l4-callout { grid-template-columns: 1fr; } }
+.l4-callout__card {
+  border: 1px solid var(--grey-border);
+  padding: var(--s-4);
+  background: var(--pure-white);
+}
+.l4-callout__head {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.l4-callout__title {
+  font-family: var(--font-cn);
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+.l4-callout__body {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--grey-decay);
+}
+.l4-callout__body strong { color: var(--quantum-black); font-weight: 700; }
+.l4-callout__body em { font-style: normal; color: var(--threshold-cyan); font-weight: 700; }
+
+.l4-formula {
+  margin-top: var(--s-4);
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  padding: var(--s-3) var(--s-4);
+  border-left: 4px solid var(--threshold-cyan);
+  font-family: var(--font-cn);
+  font-size: 15px;
+  line-height: 1.65;
+  font-weight: 500;
+}
+.l4-formula em { font-style: normal; color: var(--threshold-cyan); font-weight: 700; }
+.l4-formula b { color: var(--energy-orange); font-weight: 700; }
+
+/* ============================================================
+   SECTION 03 — Three-Layer Architecture · CIP / EXP / EOS
+   ============================================================ */
+.arch {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.arch-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--edge);
+  background: var(--threshold-cyan);
+  padding: var(--edge);
+}
+.arch-row {
+  display: grid;
+  grid-template-columns: minmax(0, 240px) 1fr minmax(0, 180px);
+  gap: var(--s-4);
+  align-items: stretch;
+  padding: var(--s-5) var(--s-4);
+  background: var(--quantum-black);
+  position: relative;
+  transition: background var(--d-element) var(--leap-aux), transform var(--d-element) var(--leap-aux);
+}
+@media (max-width: 900px) {
+  .arch-row { grid-template-columns: 1fr; gap: var(--s-2); padding: var(--s-3); }
+}
+.arch-row:hover {
+  background: #0A0E11;
+}
+.arch-row__id {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--threshold-cyan);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.arch-row__id b {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 2.6vw, 38px);
+  color: var(--pure-white);
+  letter-spacing: -0.02em;
+}
+.arch-row__id span {
+  font-family: var(--font-cn);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--grey-mid);
+  letter-spacing: 0.04em;
+}
+
+.arch-row__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.arch-row__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(22px, 2.2vw, 32px);
+  margin-bottom: 12px;
+}
+.arch-row__detail {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--residual-light);
+  line-height: 1.65;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.arch-row__detail span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px;
+}
+.arch-row__detail span::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--threshold-cyan);
+}
+
+.arch-row__role {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+  align-self: end;
+  text-align: right;
+}
+@media (max-width: 900px) { .arch-row__role { text-align: left; } }
+
+.arch-foot {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+@media (max-width: 1024px) { .arch-foot { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .arch-foot { grid-template-columns: 1fr; } }
+
+.arch-foot__cell {
+  padding: var(--s-3);
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+.arch-foot__cell:last-child { border-right: none; }
+@media (max-width: 1024px) {
+  .arch-foot__cell { border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .arch-foot__cell:nth-child(2n) { border-right: none; }
+  .arch-foot__cell:nth-last-child(-n+2) { border-bottom: none; }
+}
+.arch-foot__head {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.arch-foot__title {
+  font-family: var(--font-cn);
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.arch-foot__body {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.55;
+}
+
+/* ============================================================
+   SECTION 04 — MetaAgent × Bootcamp · 制造AI的AI
+   ============================================================ */
+.meta {
+  background: var(--pure-white);
+  color: var(--quantum-black);
+  position: relative;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--quantum-black);
+  border: 2px solid var(--quantum-black);
+}
+@media (max-width: 900px) { .meta-grid { grid-template-columns: 1fr; } }
+
+.meta-mode {
+  background: var(--pure-white);
+  padding: var(--s-5);
+  position: relative;
+}
+.meta-mode.--deep {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.meta-mode__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+}
+.meta-mode.--deep .meta-mode__head { color: var(--threshold-cyan); }
+.meta-mode__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+  margin-bottom: var(--s-2);
+}
+.meta-mode__title em { font-style: normal; color: var(--threshold-cyan); }
+.meta-mode__quick {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--energy-orange);
+  margin-bottom: var(--s-3);
+}
+.meta-mode.--deep .meta-mode__quick { color: var(--energy-orange); }
+.meta-mode__body {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--grey-decay);
+}
+.meta-mode.--deep .meta-mode__body { color: var(--residual-light); }
+.meta-mode__body strong { color: var(--quantum-black); font-weight: 700; }
+.meta-mode.--deep .meta-mode__body strong { color: var(--pure-white); }
+
+.meta-loops {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3);
+}
+@media (max-width: 900px) { .meta-loops { grid-template-columns: 1fr; } }
+.meta-loop {
+  border: 1px solid var(--grey-border);
+  padding: var(--s-3);
+  background: var(--residual-light);
+  position: relative;
+}
+.meta-loop.--out { background: var(--quantum-black); color: var(--pure-white); border-color: var(--quantum-black); }
+.meta-loop__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--threshold-cyan);
+  margin-bottom: 8px;
+}
+.meta-loop__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+.meta-loop__body {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--grey-decay);
+}
+.meta-loop.--out .meta-loop__body { color: var(--residual-light); }
+
+/* Pipeline: 五阶段进化生产线 */
+.pipeline {
+  margin-top: var(--s-7);
+  border-top: 2px solid var(--threshold-cyan);
+  padding-top: var(--s-3);
+}
+.pipeline__head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-3);
+  align-items: end;
+  margin-bottom: var(--s-4);
+}
+.pipeline__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(22px, 2vw, 30px);
+}
+.pipeline__title em { font-style: normal; color: var(--threshold-cyan); }
+.pipeline__sub {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--grey-decay);
+}
+
+.pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  background: var(--grey-border);
+  border: 1px solid var(--grey-border);
+}
+@media (max-width: 1024px) { .pipeline-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .pipeline-grid { grid-template-columns: 1fr; } }
+.pipeline-step {
+  background: var(--pure-white);
+  padding: var(--s-3) var(--s-2);
+  position: relative;
+}
+.pipeline-step.--leap { background: var(--quantum-black); color: var(--pure-white); }
+.pipeline-step.--leap-2 { background: #0F1316; color: var(--pure-white); }
+.pipeline-step__index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--grey-mid);
+  margin-bottom: 8px;
+}
+.pipeline-step.--leap .pipeline-step__index, .pipeline-step.--leap-2 .pipeline-step__index { color: var(--threshold-cyan); }
+.pipeline-step__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.pipeline-step__title b {
+  display: inline-block;
+  background: var(--quantum-black);
+  color: var(--energy-orange);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 2px 5px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.pipeline-step.--leap .pipeline-step__title b, .pipeline-step.--leap-2 .pipeline-step__title b {
+  background: var(--energy-orange);
+  color: var(--quantum-black);
+}
+.pipeline-step__cap {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--threshold-cyan);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.pipeline-step__body {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--grey-decay);
+}
+.pipeline-step.--leap .pipeline-step__body, .pipeline-step.--leap-2 .pipeline-step__body { color: var(--residual-light); }
+
+/* ============================================================
+   SECTION 05 — 通专融合 Timeline
+   ============================================================ */
+.timeline {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.timeline-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+  padding-top: var(--s-5);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+@media (max-width: 900px) { .timeline-track { grid-template-columns: 1fr; } }
+
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8.3%;
+  right: 8.3%;
+  height: 1px;
+  background: rgba(255,255,255,0.18);
+}
+.timeline-node {
+  position: relative;
+  padding-top: var(--s-3);
+}
+.timeline-node::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 9px; height: 9px;
+  background: var(--threshold-cyan);
+}
+.timeline-node:last-child::before {
+  background: var(--energy-orange);
+  width: 12px; height: 12px;
+  top: -7px;
+}
+.timeline-node__year {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(36px, 4vw, 56px);
+  letter-spacing: -0.02em;
+  color: var(--pure-white);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.timeline-node:last-child .timeline-node__year { color: var(--energy-orange); }
+.timeline-node__phase {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--threshold-cyan);
+  margin-bottom: var(--s-3);
+  text-transform: uppercase;
+}
+.timeline-node__title {
+  font-family: var(--font-cn);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 900;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+.timeline-node__body {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--residual-light);
+  margin-bottom: 14px;
+}
+.timeline-node__body em {
+  font-style: normal;
+  color: var(--threshold-cyan);
+  font-weight: 600;
+}
+.timeline-node__chips {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.timeline-node__chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--residual-light);
+  text-transform: uppercase;
+}
+
+.timeline-foot {
+  margin-top: var(--s-5);
+  padding: var(--s-3);
+  border-left: 4px solid var(--energy-orange);
+  background: rgba(250,95,38,0.04);
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--residual-light);
+}
+.timeline-foot strong { color: var(--energy-orange); font-weight: 700; }
+
+/* ============================================================
+   SECTION 06 — Asset Numbers · Already Beyond Threshold
+   ============================================================ */
+.assets {
+  background: var(--pure-white);
+  color: var(--quantum-black);
+}
+.assets-rail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--grey-border);
+}
+@media (max-width: 900px) { .assets-rail { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .assets-rail { grid-template-columns: 1fr; } }
+
+.assets-cell {
+  padding: var(--s-4) var(--s-3);
+  border-right: 1px solid var(--grey-border);
+  position: relative;
+}
+.assets-cell:last-child { border-right: none; }
+@media (max-width: 900px) {
+  .assets-cell:nth-child(2n) { border-right: none; }
+  .assets-cell:nth-child(-n+2) { border-bottom: 1px solid var(--grey-border); }
+}
+@media (max-width: 540px) {
+  .assets-cell { border-right: none; border-bottom: 1px solid var(--grey-border); }
+  .assets-cell:last-child { border-bottom: none; }
+}
+.assets-cell__num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--quantum-black);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.assets-cell__num small {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--grey-mid);
+  letter-spacing: 0;
+}
+.assets-cell__num.--cyan { color: var(--threshold-cyan); }
+.assets-cell__num.--orange { color: var(--energy-orange); }
+.assets-cell__label {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--quantum-black);
+}
+.assets-cell__sub {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--grey-mid);
+}
+
+/* Scenario quadrants */
+.scenarios {
+  margin-top: var(--s-7);
+}
+.scenarios__head {
+  border-top: 2px solid var(--quantum-black);
+  padding-top: var(--s-3);
+  margin-bottom: var(--s-4);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--s-3);
+}
+.scenarios__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(24px, 2.6vw, 36px);
+}
+.scenarios__title em { font-style: normal; color: var(--threshold-cyan); }
+.scenarios__legend {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--grey-border);
+  border: 1px solid var(--grey-border);
+}
+@media (max-width: 1024px) { .scenario-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .scenario-grid { grid-template-columns: 1fr; } }
+
+.scenario {
+  background: var(--pure-white);
+  padding: var(--s-3);
+  position: relative;
+  transition: background var(--d-element) var(--leap-aux);
+  cursor: default;
+}
+.scenario:hover { background: var(--residual-light); }
+.scenario::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 36px; height: 2px;
+  background: var(--threshold-cyan);
+  transition: width var(--d-element) var(--leap);
+}
+.scenario:hover::before { width: 100%; }
+.scenario__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--s-3);
+}
+.scenario__index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+}
+.scenario__group {
+  font-family: var(--font-cn);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.scenario__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 22px;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.scenario__title em { font-style: normal; color: var(--energy-orange); }
+.scenario__num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--quantum-black);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.scenario__num em { font-style: normal; color: var(--threshold-cyan); }
+.scenario__list {
+  list-style: none;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--grey-decay);
+}
+.scenario__list li {
+  padding-left: 14px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.scenario__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px; height: 1px;
+  background: var(--threshold-cyan);
+}
+
+/* ============================================================
+   SECTION 07 — Three Roles · 员工/老板/开发者
+   ============================================================ */
+.roles {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--threshold-cyan);
+  border: 2px solid var(--threshold-cyan);
+}
+@media (max-width: 900px) { .roles-grid { grid-template-columns: 1fr; } }
+
+.role {
+  background: var(--quantum-black);
+  padding: var(--s-5) var(--s-4);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.role__index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+  margin-bottom: var(--s-3);
+}
+.role__icon {
+  width: 48px; height: 48px;
+  border: 2px solid var(--threshold-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--s-3);
+  background: rgba(0,193,212,0.06);
+}
+.role__icon svg { width: 22px; height: 22px; }
+.role__name {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.role__title {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--grey-mid);
+  margin-bottom: var(--s-3);
+}
+.role__chip {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  font-family: var(--font-cn);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: var(--threshold-cyan);
+  color: var(--quantum-black);
+  letter-spacing: 0.06em;
+  margin-bottom: var(--s-3);
+}
+.role.--boss .role__chip { background: var(--energy-orange); color: var(--pure-white); }
+.role__body {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--residual-light);
+  flex: 1;
+}
+.role__body strong { color: var(--threshold-cyan); font-weight: 700; }
+
+.roles-foot {
+  margin-top: var(--s-4);
+  padding: var(--s-3);
+  background: var(--threshold-cyan);
+  color: var(--quantum-black);
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 700;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-3);
+  align-items: center;
+}
+.roles-foot__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ============================================================
+   SECTION 08 — Value loop · 研·产·供·销
+   ============================================================ */
+.loop {
+  background: var(--residual-light);
+  color: var(--quantum-black);
+}
+.loop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-2);
+}
+@media (max-width: 1024px) { .loop-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .loop-grid { grid-template-columns: 1fr; } }
+
+.loop-card {
+  background: var(--pure-white);
+  padding: var(--s-4) var(--s-3);
+  position: relative;
+  border-top: 2px solid var(--threshold-cyan);
+}
+.loop-card__index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+  margin-bottom: var(--s-2);
+}
+.loop-card__hero {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--energy-orange);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.loop-card__title {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(24px, 2.4vw, 32px);
+  margin-bottom: var(--s-3);
+}
+.loop-card__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--s-3);
+}
+.loop-card__metric-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--grey-decay);
+}
+.loop-card__metric-row::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 1.5px;
+  background: var(--threshold-cyan);
+  flex: none;
+}
+.loop-card__metric-row em {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--quantum-black);
+}
+.loop-card__metric-row em.--orange { color: var(--energy-orange); }
+.loop-card__big {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--threshold-cyan);
+}
+.loop-card__big small {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--grey-mid);
+  font-weight: 600;
+}
+.loop-card__big.--orange { color: var(--energy-orange); }
+.loop-card__cap {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  color: var(--grey-mid);
+  margin-top: 4px;
+}
+
+.value-formula {
+  margin-top: var(--s-5);
+  padding: var(--s-3) var(--s-4);
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  font-family: var(--font-cn);
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: baseline;
+  border-left: 4px solid var(--energy-orange);
+}
+.value-formula__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+}
+.value-formula__formula {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--pure-white);
+  letter-spacing: 0.04em;
+}
+.value-formula__formula em { font-style: normal; color: var(--threshold-cyan); }
+.value-formula__formula b { color: var(--energy-orange); font-weight: 700; }
+
+/* ============================================================
+   SECTION 09 — Three Editions
+   ============================================================ */
+.editions {
+  background: var(--pure-white);
+  color: var(--quantum-black);
+}
+.editions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-2);
+}
+@media (max-width: 900px) { .editions-grid { grid-template-columns: 1fr; } }
+
+.edition {
+  border: 1px solid var(--grey-border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--pure-white);
+  transition: border-color var(--d-element) var(--leap-aux), transform var(--d-element) var(--leap-aux);
+}
+.edition:hover {
+  border-color: var(--threshold-cyan);
+}
+.edition.--featured {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  border-color: var(--quantum-black);
+}
+.edition__band {
+  background: var(--threshold-cyan);
+  color: var(--quantum-black);
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-flex;
+  align-self: flex-start;
+}
+.edition.--starter .edition__band { background: var(--residual-light); color: var(--quantum-black); }
+.edition.--featured .edition__band { background: var(--energy-orange); color: var(--pure-white); }
+
+.edition__body {
+  padding: var(--s-4) var(--s-3);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.edition__name {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(28px, 2.8vw, 38px);
+  line-height: 1.05;
+  margin-bottom: 6px;
+}
+.edition__tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--grey-mid);
+  margin-bottom: var(--s-3);
+}
+.edition.--featured .edition__tag { color: var(--threshold-cyan); }
+.edition__detail {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--grey-decay);
+  margin-bottom: var(--s-3);
+}
+.edition.--featured .edition__detail { color: var(--residual-light); }
+
+.edition__list {
+  list-style: none;
+  flex: 1;
+  margin-bottom: var(--s-3);
+}
+.edition__list li {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.65;
+  padding: 8px 0 8px 16px;
+  border-bottom: 1px solid var(--grey-border);
+  position: relative;
+  color: var(--quantum-black);
+}
+.edition.--featured .edition__list li {
+  border-bottom-color: rgba(255,255,255,0.08);
+  color: var(--residual-light);
+}
+.edition__list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 17px;
+  width: 8px; height: 1.5px;
+  background: var(--threshold-cyan);
+}
+
+.edition__price {
+  font-family: var(--font-cn);
+  font-size: 14px;
+  color: var(--grey-mid);
+  margin-bottom: var(--s-3);
+}
+.edition__price strong {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  color: var(--quantum-black);
+  margin-right: 6px;
+}
+.edition.--featured .edition__price strong { color: var(--threshold-cyan); }
+.edition__price small { font-family: var(--font-mono); font-size: 11px; }
+
+.edition__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: all var(--d-micro) var(--leap-aux);
+}
+.edition.--featured .edition__cta { background: var(--threshold-cyan); color: var(--quantum-black); }
+.edition__cta:hover { background: var(--threshold-cyan); color: var(--quantum-black); }
+.edition.--featured .edition__cta:hover { background: var(--pure-white); }
+.edition__cta::after { content: '→'; }
+
+/* ============================================================
+   SECTION 10 — Founder · 周伯文 / Thought leadership
+   ============================================================ */
+.founder {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+}
+.founder-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr);
+  gap: var(--s-5);
+  align-items: stretch;
+}
+@media (max-width: 900px) { .founder-grid { grid-template-columns: 1fr; } }
+
+.founder-portrait {
+  background: #0A0E11;
+  padding: var(--s-4);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.founder-portrait::before {
+  content: '';
+  position: absolute;
+  bottom: 30%;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--threshold-cyan);
+  z-index: 1;
+}
+.founder-portrait__top {
+  position: relative;
+  z-index: 2;
+}
+.founder-portrait__index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+}
+.founder-portrait__abstract {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 76px);
+  line-height: 0.95;
+  margin-top: var(--s-3);
+  color: var(--pure-white);
+}
+.founder-portrait__abstract em { font-style: normal; color: var(--threshold-cyan); }
+.founder-portrait__bottom {
+  position: relative;
+  z-index: 2;
+}
+.founder-portrait__name {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 26px;
+  color: var(--pure-white);
+  margin-bottom: 4px;
+}
+.founder-portrait__role {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--grey-mid);
+  letter-spacing: 0.04em;
+}
+
+.founder-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.founder-headline {
+  font-family: var(--font-cn);
+  font-weight: 700;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.4;
+}
+.founder-headline em { font-style: normal; color: var(--threshold-cyan); }
+
+.founder-creds {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+@media (max-width: 540px) { .founder-creds { grid-template-columns: 1fr; } }
+.founder-cred {
+  background: var(--quantum-black);
+  padding: var(--s-3);
+}
+.founder-cred__tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.founder-cred__title {
+  font-family: var(--font-cn);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.founder-cred__detail {
+  font-family: var(--font-cn);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--residual-light);
+}
+
+.founder-quote {
+  padding: var(--s-3);
+  border-left: 4px solid var(--energy-orange);
+  background: rgba(250,95,38,0.04);
+  font-family: var(--font-cn);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--residual-light);
+}
+.founder-quote strong { color: var(--energy-orange); font-weight: 700; }
+.founder-quote em { font-style: normal; color: var(--threshold-cyan); }
+
+/* ============================================================
+   SECTION 11 — Cross The Threshold (CTA)
+   ============================================================ */
+.cta-section {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  padding: var(--s-9) var(--gutter) var(--s-7);
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid var(--threshold-cyan);
+}
+
+.cta-section__inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--s-5);
+  align-items: end;
+}
+@media (max-width: 900px) {
+  .cta-section__inner { grid-template-columns: 1fr; }
+}
+
+.cta-section__display {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: clamp(48px, 8vw, 128px);
+  line-height: 0.92;
+  color: var(--pure-white);
+  letter-spacing: 0.005em;
+}
+.cta-section__display em { font-style: normal; color: var(--threshold-cyan); }
+.cta-section__display b {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.55em;
+  display: block;
+  color: var(--threshold-cyan);
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+}
+
+.cta-section__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.cta-section__sub {
+  font-family: var(--font-cn);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--residual-light);
+  border-left: 2px solid var(--threshold-cyan);
+  padding-left: 16px;
+}
+.cta-section__btns {
+  display: flex; flex-wrap: wrap; gap: var(--s-2);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--quantum-black);
+  color: var(--residual-light);
+  padding: var(--s-5) var(--gutter) var(--s-3);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer__inner {
+  width: 100%; max-width: var(--max-w); margin: 0 auto;
+}
+.footer__top {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+@media (max-width: 900px) { .footer__top { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .footer__top { grid-template-columns: 1fr; } }
+
+.footer__brand-block svg { height: 38px; }
+.footer__brand-cn {
+  font-family: var(--font-cn);
+  font-weight: 900;
+  font-size: 18px;
+  margin-top: 14px;
+}
+.footer__brand-en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--grey-mid);
+  margin-top: 2px;
+}
+.footer__brand-line {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--grey-mid);
+  margin-top: var(--s-3);
+  max-width: 360px;
+}
+.footer__brand-line em { font-style: normal; color: var(--threshold-cyan); }
+
+.footer__col-head {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--threshold-cyan);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.footer__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer__list a {
+  font-family: var(--font-cn);
+  font-size: 13px;
+  color: var(--residual-light);
+  transition: color var(--d-micro);
+}
+.footer__list a:hover { color: var(--threshold-cyan); }
+
+.footer__bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--s-3);
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--grey-mid);
+  text-transform: uppercase;
+}
+.footer__bottom-state {
+  display: flex; align-items: center; gap: 10px;
+}
+.footer__bottom-state::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--threshold-cyan);
+}
+
+/* ============================================================
+   Reveal-on-scroll utility — single-step hard cut, no fade
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--leap), transform 800ms var(--leap);
+  will-change: transform, opacity;
+}
+.reveal.--in {
+  opacity: 1;
+  transform: none;
+}
+.reveal.--stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms var(--leap), transform 600ms var(--leap);
+}
+.reveal.--in.--stagger > * {
+  opacity: 1;
+  transform: none;
+}
+.reveal.--stagger > *:nth-child(1) { transition-delay: 0ms; }
+.reveal.--stagger > *:nth-child(2) { transition-delay: 80ms; }
+.reveal.--stagger > *:nth-child(3) { transition-delay: 160ms; }
+.reveal.--stagger > *:nth-child(4) { transition-delay: 240ms; }
+.reveal.--stagger > *:nth-child(5) { transition-delay: 320ms; }
+.reveal.--stagger > *:nth-child(6) { transition-delay: 400ms; }
+.reveal.--stagger > *:nth-child(7) { transition-delay: 480ms; }
+
+/* a11y: reduced-motion fallback — substitute, not remove */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  body.is-loaded .threshold-tracker { transform: none; }
+}
+
+/* Print etc: dark sections legibility */
+@media print {
+  .threshold-tracker, .nav, .hero__rail { display: none; }
+  body { background: white; color: black; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- The Edge — fixed scroll-tracker line that is always visible -->
+<div class="threshold-tracker" aria-hidden="true"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav" role="navigation" aria-label="主导航">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo" aria-label="衔远科技 FRONTIS">
+      <svg viewBox="0 0 170 137" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="84.7" cy="68.34" r="66.21" transform="rotate(180 84.7 68.34)" stroke="white" stroke-width="4.27"/>
+        <path d="M149.59 78.89c0 7.5-1.66 13.14-4.87 20.07-3.22 6.93-7.93 13.22-13.88 18.52-5.94 5.3-13 9.51-20.76 12.38-7.77 2.87-16.09 4.35-24.5 4.35-8.4 0-16.73-1.48-24.49-4.35-7.77-2.87-14.82-7.08-20.77-12.38-5.94-5.3-10.65-11.59-13.87-18.52-3.22-6.93-4.87-12.57-4.87-20.07h128Z" fill="white"/>
+        <line x1="0" y1="83.39" x2="169.68" y2="83.39" stroke="#00C1D4" stroke-width="12.81"/>
+      </svg>
+      <span style="display:flex; flex-direction:column; line-height:1;">
+        <span class="nav__logo-cn">衔远科技</span>
+        <span class="nav__logo-en">FRONTIS</span>
+      </span>
+    </a>
+    <div class="nav__links">
+      <a href="#manifesto">理念</a>
+      <a href="#position">战略</a>
+      <a href="#architecture">架构</a>
+      <a href="#scenarios">场景</a>
+      <a href="#editions">版本</a>
+      <a href="#founder">团队</a>
+    </div>
+    <a href="#cta" class="nav__cta">跃迁开始</a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" aria-label="智能跃迁">
+  <div class="hero__strata" aria-hidden="true"><span></span></div>
+  <div class="hero__inner">
+    <div class="hero__main">
+      <div class="hero__eyebrow">FRONTIS · 临界 / THRESHOLD V1.0</div>
+      <h1 class="hero__display">
+        <span class="hero__display-cn">
+          <span><b>智能</b></span>
+          <span><b>跃迁</b></span>
+        </span>
+        <span class="hero__display-en">INTELLIGENT QUANTUM LEAP</span>
+      </h1>
+      <div class="hero__statement">
+        <p class="hero__statement-lead">为企业打造一支可持续进化、云边端协同的 <em>AI 专家团队</em>。</p>
+        <p class="hero__statement-sub">不是给你一个工具，是给你一支和你的业务一起生长的 AI 专业团队。基于「通专融合」技术，构建 AI 原生的企业级智能涌现平台。</p>
+      </div>
+      <div class="hero__cta">
+        <a href="#cta" class="btn-primary">申请演示</a>
+        <a href="#architecture" class="btn-ghost">查看产品架构</a>
+      </div>
+      <div class="hero__tags">
+        <div class="hero__tag">L4 能力转化层</div>
+        <div class="hero__tag">通专融合 RL 全栈</div>
+        <div class="hero__tag">公有云 · 私有化</div>
+        <div class="hero__tag --orange">V0.7 已上线</div>
+      </div>
+    </div>
+
+    <aside class="hero__meta" aria-label="关键事实">
+      <div class="hero__meta-block --cyan">
+        <div class="hero__meta-label">AGENT ASSETS</div>
+        <div class="hero__meta-value"><strong>73</strong>专家 Agent · 206 Skill</div>
+      </div>
+      <div class="hero__meta-block --cyan">
+        <div class="hero__meta-label">SCENARIOS</div>
+        <div class="hero__meta-value"><strong>19</strong>大业务场景 · 研产供销</div>
+      </div>
+      <div class="hero__meta-block">
+        <div class="hero__meta-label">FOUNDED · BY</div>
+        <div class="hero__meta-value">2021 · 周伯文教授<br><span style="color:var(--grey-mid); font-size:12px;">Transformer 奠基人之一</span></div>
+      </div>
+      <div class="hero__meta-block">
+        <div class="hero__meta-label">TARGET · 2027</div>
+        <div class="hero__meta-value">服务 10,000 家企业</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="hero__rail" aria-hidden="true">
+    <span>FRONTIS · INTELLIGENT QUANTUM LEAP</span>
+    <span>SHANGHAI · BEIJING · 2026</span>
+    <span class="hero__rail-state">SYSTEM ONLINE · V0.7</span>
+  </div>
+</section>
+
+<!-- ===================== 01 MANIFESTO ===================== -->
+<section class="section manifesto" id="manifesto" aria-label="跃迁定义">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>01 / MANIFESTO</span> 我们为什么用「跃迁」二字</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">没有过渡。<em>之前是一种存在，</em><br>之后是另一种存在。</h2>
+        <p class="s-head__sub">跃迁在物理学中描述的是粒子在能级之间的非连续性状变。不是渐进的移动，而是消失在 A、出现在 B。这种不连续性、不可逆性，是衔远与数十个宣称"向前迈进"的企业 AI 品牌区分开来的核心。</p>
+      </div>
+    </header>
+
+    <div class="manifesto-grid reveal --stagger">
+      <article class="manifesto-cell">
+        <div class="manifesto-cell__index">01 · NOT</div>
+        <div class="manifesto-cell__formula"><b>跃迁</b><s>≠</s><i>转型</i></div>
+        <p class="manifesto-cell__detail">转型有路径、有起点、有可回头的修正。跃迁没有路径——能量积聚到临界，状态切换在那一刻完成。</p>
+      </article>
+      <article class="manifesto-cell">
+        <div class="manifesto-cell__index">02 · NOT</div>
+        <div class="manifesto-cell__formula"><b>跃迁</b><s>≠</s><i>升级</i></div>
+        <p class="manifesto-cell__detail">升级是版本号的累加。跃迁是基础态的整体置换，无法通过累加抵达，只能通过临界。</p>
+      </article>
+      <article class="manifesto-cell">
+        <div class="manifesto-cell__index">03 · NOT</div>
+        <div class="manifesto-cell__formula"><b>跃迁</b><s>≠</s><i>进化</i></div>
+        <p class="manifesto-cell__detail">进化是连续优化。跃迁是 Context 跨过阈值进入 Weight——从软记忆变成硬能力，是不可逆的硬切换。</p>
+      </article>
+    </div>
+
+    <div class="manifesto-anchor reveal">
+      <div class="manifesto-anchor__main">
+        衔远 是让企业从『知道 AI 时代来了』<br>跃迁至『<em>已经活在 AI 时代里</em>』的那个力量。
+      </div>
+      <div class="manifesto-anchor__sig">
+        VI v1.0 · 2026.03 / 让临界可见
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 02 L4 STRATEGIC POSITION ===================== -->
+<section class="section l4" id="position" aria-label="战略占位">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>02 / POSITION</span> 战略占位</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">独特的战略占位 —— <br>AI 产业链七层格局中的 <em>L4 能力转化层</em></h2>
+        <p class="s-head__sub">不在 L3 拼算力，不在 L5 抢开发者，不在 L6 抢项目。占据 L4 转化层 —— 用 RL 全栈训练行业专业模型，在数字风洞中仿真验证，通过 Meta-Agent 自动化生产 AI 员工。</p>
+      </div>
+    </header>
+
+    <div class="l4-stack reveal">
+      <div class="l4-row">
+        <span class="l4-row__layer">L7</span>
+        <span class="l4-row__name">终端应用</span>
+        <span class="l4-row__players">Cursor · Manus · Devin · 垂直 SaaS</span>
+        <span class="l4-row__feat">红海 · 同质化</span>
+      </div>
+      <div class="l4-row">
+        <span class="l4-row__layer">L6</span>
+        <span class="l4-row__name">行业集成</span>
+        <span class="l4-row__players">滴普 · 明略 · 商汤 · 第四范式</span>
+        <span class="l4-row__feat">拥挤 · 利润薄</span>
+      </div>
+      <div class="l4-row">
+        <span class="l4-row__layer">L5</span>
+        <span class="l4-row__name">Agent 框架</span>
+        <span class="l4-row__players">Dify · Coze · LangGraph · CrewAI · 百炼</span>
+        <span class="l4-row__feat">工具层 · 训练弱</span>
+      </div>
+      <div class="l4-row --us">
+        <span class="l4-row__layer">L4 ←</span>
+        <span class="l4-row__name">能力转化层</span>
+        <span class="l4-row__players">FRONTIS · Meta-Agent × RL 全栈 × 模拟环境</span>
+        <span class="l4-row__feat">空白层 · 飞轮强 · 利润厚</span>
+        <span class="l4-row__marker" aria-hidden="true"></span>
+      </div>
+      <div class="l4-row">
+        <span class="l4-row__layer">L3</span>
+        <span class="l4-row__name">基础模型</span>
+        <span class="l4-row__players">OpenAI · Anthropic · DeepSeek · Kimi · MiniMax · Qwen</span>
+        <span class="l4-row__feat">军备竞赛 · 商品化</span>
+      </div>
+      <div class="l4-row">
+        <span class="l4-row__layer">L2</span>
+        <span class="l4-row__name">训练推理框架</span>
+        <span class="l4-row__players">veRL · SLIME · vLLM · SGLang · PyTorch</span>
+        <span class="l4-row__feat">底层引擎 · 开源主导</span>
+      </div>
+      <div class="l4-row">
+        <span class="l4-row__layer">L1</span>
+        <span class="l4-row__name">算力 / 数据设施</span>
+        <span class="l4-row__players">NVIDIA · 华为昇腾 · AWS · 阿里云</span>
+        <span class="l4-row__feat">寡头垄断 · 资本密集</span>
+      </div>
+    </div>
+
+    <div class="l4-callout reveal --stagger">
+      <article class="l4-callout__card">
+        <div class="l4-callout__head">WHY NOT L3</div>
+        <h3 class="l4-callout__title">为什么 L3 大模型厂商不做 L4？</h3>
+        <p class="l4-callout__body">智谱 / DeepSeek / Kimi / MiniMax 战略是<strong>通用模型</strong>，不愿为每个行业建仿真环境（ROI 不划算）。大厂平台（千帆 / 百炼）做通用工具层 L5，做不了行业深度。<br><br>唯一例外：代码方向（Codex / Claude Code）= L3 自营 L7，但只做<em>超大规模垂直</em>。</p>
+      </article>
+      <article class="l4-callout__card">
+        <div class="l4-callout__head">WHY NOT L5 / L6</div>
+        <h3 class="l4-callout__title">为什么 L5 / L6 做不了 L4？</h3>
+        <p class="l4-callout__body">Dify / Coze / LangGraph（L5）= Agent 编排工具，不训练模型。滴普 / 商汤 / 第四范式（L6）= 数据治理 + 项目交付，不自研 RL 算法和行业环境。<br><br>两者都缺：<em>RL 全栈算法 · 行业仿真环境 · 通专融合架构</em> —— 三者叠加才构成 L4。</p>
+      </article>
+    </div>
+
+    <div class="l4-formula reveal">
+      <em>L4 = 用 RL 训练行业专业模型 + 构建通专协同架构</em>　以上调 API 做编排，以下提供通用能力；<b>中间唯一空白</b>即是 Frontis 的占位。
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 03 ARCHITECTURE ===================== -->
+<section class="section arch" id="architecture" aria-label="三层架构">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>03 / ARCHITECTURE</span> 平台架构</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">Frontis AI · <em>可持续进化</em> 的 <br>AI 生产力平台</h2>
+        <p class="s-head__sub">用户交互 → 能力资产 → 进化引擎，三层垂直闭合。从最上层员工调用专家、到中层 Agent 与 Skill 的能力沉淀，再到底层 EOS 的自我进化机制 —— 每一次运转都跨过一道临界。</p>
+      </div>
+    </header>
+
+    <div class="arch-stack reveal --stagger">
+      <article class="arch-row">
+        <div class="arch-row__id">
+          <b>CIP</b>
+          <span>FRONTIS · 强协同创新平台</span>
+        </div>
+        <div class="arch-row__body">
+          <h3 class="arch-row__title">人机协同 + 决策执行协同 + 云边端协同</h3>
+          <div class="arch-row__detail">
+            <span>PC Web 工作台</span>
+            <span>飞书集成</span>
+            <span>移动端 V0.7</span>
+            <span>多端 Agent Runtime</span>
+          </div>
+        </div>
+        <div class="arch-row__role">用户<br>交互层</div>
+      </article>
+
+      <article class="arch-row">
+        <div class="arch-row__id">
+          <b>EXP</b>
+          <span>FRONTIS · 高价值专家技能</span>
+        </div>
+        <div class="arch-row__body">
+          <h3 class="arch-row__title">研发生产 + 供应链管理 + 营销增长</h3>
+          <div class="arch-row__detail">
+            <span>73 个专家 Agent</span>
+            <span>206 个 Skill</span>
+            <span>19 大业务场景</span>
+            <span>Agent Store 订阅</span>
+          </div>
+        </div>
+        <div class="arch-row__role">能力<br>资产层</div>
+      </article>
+
+      <article class="arch-row">
+        <div class="arch-row__id">
+          <b>EOS</b>
+          <span>FRONTIS · 自进化操作系统</span>
+        </div>
+        <div class="arch-row__body">
+          <h3 class="arch-row__title">运行引擎 + 进化引擎</h3>
+          <div class="arch-row__detail">
+            <span>MetaAgent</span>
+            <span>Bootcamp 数字风洞</span>
+            <span>TTRL · OpenPRM · SkillRL · MARTI</span>
+            <span>Skill RL 参数化</span>
+          </div>
+        </div>
+        <div class="arch-row__role">进化<br>引擎层</div>
+      </article>
+    </div>
+
+    <div class="arch-foot reveal --stagger">
+      <div class="arch-foot__cell">
+        <div class="arch-foot__head">CAPABILITY · 01</div>
+        <div class="arch-foot__title">通专融合</div>
+        <div class="arch-foot__body">基于通专融合技术打造懂业务、懂场景的 AI</div>
+      </div>
+      <div class="arch-foot__cell">
+        <div class="arch-foot__head">CAPABILITY · 02</div>
+        <div class="arch-foot__title">专业深度</div>
+        <div class="arch-foot__body">经过 RL 训练的专业模型，确定性高精度输出</div>
+      </div>
+      <div class="arch-foot__cell">
+        <div class="arch-foot__head">CAPABILITY · 03</div>
+        <div class="arch-foot__title">进化速度</div>
+        <div class="arch-foot__body">元智能体进化学习，基于反馈持续进化</div>
+      </div>
+      <div class="arch-foot__cell">
+        <div class="arch-foot__head">CAPABILITY · 04</div>
+        <div class="arch-foot__title">数据宽度</div>
+        <div class="arch-foot__body">广泛适配现有系统，数据安全 · 低成本</div>
+      </div>
+      <div class="arch-foot__cell">
+        <div class="arch-foot__head">CAPABILITY · 05</div>
+        <div class="arch-foot__title">协同密度</div>
+        <div class="arch-foot__body">多 Agent 协同作战，解决复杂问题</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 04 META-AGENT × BOOTCAMP ===================== -->
+<section class="section meta" aria-label="制造AI的AI">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>04 / META-ENGINE</span> 自进化引擎</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">MetaAgent × Bootcamp <br><em>制造 AI 的 AI</em></h2>
+        <p class="s-head__sub">核心不是交付单个 Agent，而是掌握批量制造高质量 Agent 的元能力 —— 从「授人以鱼」到「授人以渔」。两种交付节奏 · 双重进化循环。</p>
+      </div>
+    </header>
+
+    <div class="meta-grid reveal">
+      <article class="meta-mode">
+        <div class="meta-mode__head">
+          <span>MODE · 01</span>
+          <span>FAST</span>
+        </div>
+        <h3 class="meta-mode__title"><em>快模式</em></h3>
+        <div class="meta-mode__quick">分钟级交付</div>
+        <p class="meta-mode__body">基于已积累的构建经验，直接组装最优 Agent 配置（<strong>Skill 组合 + 协作策略 + 记忆方案</strong>）。供应链客户积累的经验，分钟级迁移到下一个供应链客户。<br><br>核心：<strong>经验复用</strong> —— 检索最相似场景，基于已有最优模式组装微调，跨客户、跨行业经验迁移。</p>
+      </article>
+      <article class="meta-mode --deep">
+        <div class="meta-mode__head">
+          <span>MODE · 02</span>
+          <span>DEEP</span>
+        </div>
+        <h3 class="meta-mode__title"><em>慢模式</em></h3>
+        <div class="meta-mode__quick">天级深度训练</div>
+        <p class="meta-mode__body">调用 Bootcamp 对高价值场景进行深度训练。传统人工构建需 3–6 个月，Bootcamp 压缩至天级。<br><br>① <strong>环境合成</strong>：行业数据自动合成训练场景<br>② <strong>奖励建模</strong>：专家判断标准编码为可微分奖励<br>③ <strong>强化学习</strong>：GRPO 驱动策略迭代，试错内化为直觉</p>
+      </article>
+    </div>
+
+    <div class="meta-loops reveal --stagger">
+      <article class="meta-loop --in">
+        <div class="meta-loop__tag">SKILL EVOLUTION · 内循环</div>
+        <h4 class="meta-loop__title">SkillAgent 精进</h4>
+        <p class="meta-loop__body">Work Agent 在 Bootcamp 中通过五阶段生产线持续精进 —— 业务执行的每条轨迹、专家修正的每个信号都被转化为<strong>进化的训练数据</strong>。反馈来自客户专家标注、专家预测对比、测试集验证、实际业务回测 —— 所有效果提升都有客观可量化的验证。</p>
+      </article>
+      <article class="meta-loop --out">
+        <div class="meta-loop__tag" style="color:var(--energy-orange)">META-COGNITION · 外循环</div>
+        <h4 class="meta-loop__title">MetaAgent 认知升级</h4>
+        <p class="meta-loop__body">多场景构建经验反向优化 MetaAgent 的元认知。三类经验积累：<strong>任务拆解模式 · Skill 组合策略 · RL 训练超参</strong>。构建的 Agent 越多，制造精度越高 —— 网络效应，不是线性积累。</p>
+      </article>
+    </div>
+
+    <div class="pipeline reveal">
+      <div class="pipeline__head">
+        <h3 class="pipeline__title">五阶段进化生产线 · <em>Context → Weight</em></h3>
+        <span class="pipeline__sub">让成熟经验跨过阈值，从软记忆进入硬能力</span>
+      </div>
+      <div class="pipeline-grid">
+        <div class="pipeline-step">
+          <div class="pipeline-step__index">01 · 行业做到这里</div>
+          <div class="pipeline-step__title">Skill-Create</div>
+          <div class="pipeline-step__cap">知识蒸馏 + 调研</div>
+          <p class="pipeline-step__body">通过 DeepResearch 自主调研行业文献与标准规范，自动提取隐性知识，生成结构化 Skill。</p>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-step__index">02 · 行业做到这里</div>
+          <div class="pipeline-step__title">Skill-Eval</div>
+          <div class="pipeline-step__cap">自动评测 + 优化</div>
+          <p class="pipeline-step__body">四 Agent 并行评测（执行/评分/盲测/诊断），EvoSkill Proposer 分析失败根因。</p>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-step__index">03 · 行业做到这里</div>
+          <div class="pipeline-step__title">Skill-Evolve</div>
+          <div class="pipeline-step__cap">部署后持续进化</div>
+          <p class="pipeline-step__body">三级在线进化漏斗 L1→L2→L3，SkillBank 持续累积组织经验。</p>
+        </div>
+        <div class="pipeline-step --leap">
+          <div class="pipeline-step__index">THE LEAP · 阈值跃迁</div>
+          <div class="pipeline-step__title">Skill-RL <b>衔远独占</b></div>
+          <div class="pipeline-step__cap">RL 参数固化</div>
+          <p class="pipeline-step__body">RL 将成熟 Skill 知识固化为模型参数。Context → Weight 跃迁：推理更快、执行更稳，<strong>成本降一个量级</strong>。</p>
+        </div>
+        <div class="pipeline-step --leap-2">
+          <div class="pipeline-step__index">衔远独占 · 在线持续</div>
+          <div class="pipeline-step__title">Online Skill-RL <b>衔远独占</b></div>
+          <div class="pipeline-step__cap">在线持续进化</div>
+          <p class="pipeline-step__body">TTRL 实现零标注条件下的在线参数进化。双循环：推理时即时适应 + 非高峰时段批量训练。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 TECH TIMELINE ===================== -->
+<section class="section timeline" aria-label="通专融合技术路径">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>05 / GENESIS</span> 通专融合 · 2016—2026</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">不是事后追认的 positioning，<br>是 <em>2016 起步 · 2023 成文 · 2026 规模化验证</em> 的连续技术判断。</h2>
+        <p class="s-head__sub">AGI 路线图中的「高价值区域」—— 这个区域在专业性达到或超过 90%+ 专业人士水平，同时具备广义人工智能级以上的泛化能力，以极低成本在不同任务之间进行迁移。</p>
+      </div>
+    </header>
+
+    <div class="timeline-track reveal --stagger">
+      <article class="timeline-node">
+        <div class="timeline-node__year">2016</div>
+        <div class="timeline-node__phase">PHASE 01 · ANI 起点</div>
+        <h3 class="timeline-node__title">提出多头自注意力机制原型</h3>
+        <p class="timeline-node__body">发表 <em>A Structured Self-attentive Sentence Embedding</em> —— 早于 Transformer 论文，首次将多头自注意力机制结构化用于序列建模，奠定后续大模型架构基础。</p>
+        <div class="timeline-node__chips">
+          <span class="timeline-node__chip">Self-Attention</span>
+          <span class="timeline-node__chip">学界奠基成果</span>
+          <span class="timeline-node__chip">架构理论先行</span>
+        </div>
+      </article>
+      <article class="timeline-node">
+        <div class="timeline-node__year">2023</div>
+        <div class="timeline-node__phase">PHASE 02 · ABI 命名</div>
+        <h3 class="timeline-node__title">首次提出「通专融合」技术路线</h3>
+        <p class="timeline-node__body">系统化论述人工智能的发展方向 —— <em>泛化性 vs. 专业性</em> 的第一性原理。提出 ANI → ABI → AGI 三阶段：广义人工智能正在发生，通用人工智能即将到来。</p>
+        <div class="timeline-node__chips">
+          <span class="timeline-node__chip">通专融合 · 命名</span>
+          <span class="timeline-node__chip">ANI/ABI/AGI</span>
+          <span class="timeline-node__chip">三阶段路线图</span>
+        </div>
+      </article>
+      <article class="timeline-node">
+        <div class="timeline-node__year">2025—2026</div>
+        <div class="timeline-node__phase">PHASE 03 · AGI 进行时</div>
+        <h3 class="timeline-node__title">通专融合规模化落地</h3>
+        <p class="timeline-node__body">强调协同演进、同步发生，外部世界的探索进化以更高效率回馈基座模型。SAGE 相关技术理念被陆续印证；衔远以 <em>Meta-Agent × Bootcamp × RL 全栈</em> 在垂直行业完成验证。</p>
+        <div class="timeline-node__chips">
+          <span class="timeline-node__chip">SAGE</span>
+          <span class="timeline-node__chip">协同演进</span>
+          <span class="timeline-node__chip">行业规模化</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="timeline-foot reveal">
+      <strong>THOUGHT LEADERSHIP</strong> &nbsp;·&nbsp; 周伯文《以通专融合方式构建 AGI —— 路径与关键问题》2025
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 06 ASSETS & SCENARIOS ===================== -->
+<section class="section assets" id="scenarios" aria-label="资产与场景">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>06 / EVIDENCE</span> 已经跨过那条线</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">Already Beyond <em>The Threshold.</em><br>不是论证，是呈现。</h2>
+        <p class="s-head__sub">73 个专家 Agent · 206 个 Skill · 19 大业务场景 —— 覆盖企业核心经营链路四大方向，跨越「研 · 产 · 供 · 销」价值闭环。</p>
+      </div>
+    </header>
+
+    <div class="assets-rail reveal --stagger">
+      <div class="assets-cell">
+        <div class="assets-cell__num --cyan">73</div>
+        <div class="assets-cell__label">专家 Agent</div>
+        <div class="assets-cell__sub">覆盖产 · 供 · 销 · 通四大方向</div>
+      </div>
+      <div class="assets-cell">
+        <div class="assets-cell__num">206</div>
+        <div class="assets-cell__label">Skill</div>
+        <div class="assets-cell__sub">原子能力 · 可复用 · 可蒸馏</div>
+      </div>
+      <div class="assets-cell">
+        <div class="assets-cell__num">19</div>
+        <div class="assets-cell__label">业务场景</div>
+        <div class="assets-cell__sub">从市场洞察到供应链 · 从制造到医疗</div>
+      </div>
+      <div class="assets-cell">
+        <div class="assets-cell__num --orange">10K</div>
+        <div class="assets-cell__label">服务企业 · 2027 目标</div>
+        <div class="assets-cell__sub">≥70% 年均研发投入 · &gt;100% CAGR</div>
+      </div>
+    </div>
+
+    <div class="scenarios reveal">
+      <div class="scenarios__head">
+        <h3 class="scenarios__title">覆盖 <em>产 · 供 · 销 · 通</em> 的专家 Agent 资产</h3>
+        <span class="scenarios__legend">FOUR PILLARS · 19 SCENARIOS</span>
+      </div>
+
+      <div class="scenario-grid">
+        <article class="scenario">
+          <div class="scenario__head">
+            <span class="scenario__index">01 / 产</span>
+            <span class="scenario__group">工程 · 制造 · 医疗</span>
+          </div>
+          <h4 class="scenario__title">从图纸到 <em>临床</em></h4>
+          <div class="scenario__num">17 Agent · <em>42 Skill</em> · 4 场景</div>
+          <ul class="scenario__list">
+            <li>CAD 图纸识别 · 技术规格生成</li>
+            <li>施工进度预警 · 安全质量管理</li>
+            <li>糖尿病 / 正畸 / IBD 临床循证</li>
+            <li>事后追责 → 事前预警</li>
+          </ul>
+        </article>
+
+        <article class="scenario">
+          <div class="scenario__head">
+            <span class="scenario__index">02 / 供</span>
+            <span class="scenario__group">供应链 · 大宗</span>
+          </div>
+          <h4 class="scenario__title">买得到 <em>运得回</em></h4>
+          <div class="scenario__num">20 Agent · <em>30 Skill</em> · 4 场景</div>
+          <ul class="scenario__list">
+            <li>大宗商品行情 · 价格决策</li>
+            <li>3—5 天招采 → 数小时</li>
+            <li>供应链风险实时预警</li>
+            <li>仓网规划 · 路径优化</li>
+          </ul>
+        </article>
+
+        <article class="scenario">
+          <div class="scenario__head">
+            <span class="scenario__index">03 / 销</span>
+            <span class="scenario__group">电商 · 营销 · 门店</span>
+          </div>
+          <h4 class="scenario__title">从洞察到 <em>履约</em></h4>
+          <div class="scenario__num">26 Agent · <em>93 Skill</em> · 7 场景</div>
+          <ul class="scenario__list">
+            <li>新品立项：3 个月 → 1—2 周</li>
+            <li>跨境 KOL 自动筛选 · 议价</li>
+            <li>AI 视频从脚本到口型同步</li>
+            <li>门店 7×24 智能巡检</li>
+          </ul>
+        </article>
+
+        <article class="scenario">
+          <div class="scenario__head">
+            <span class="scenario__index">04 / 通</span>
+            <span class="scenario__group">人才 · 财务 · 决策</span>
+          </div>
+          <h4 class="scenario__title">让 <em>CEO</em> 一屏掌控</h4>
+          <div class="scenario__num">10 Agent · <em>41 Skill</em> · 4 场景</div>
+          <ul class="scenario__list">
+            <li>面试操作：4 小时 → 30 分钟</li>
+            <li>合同审批 · 收入确认 · 报销复核</li>
+            <li>财报研报快速解读</li>
+            <li>CEO 智能决策助手</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 07 THREE ROLES ===================== -->
+<section class="section roles" aria-label="三类角色">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>07 / ROLES</span> 三个角色 · 三类价值</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">员工提效 · 老板决策提速 ·<br>开发者快速 <em>打造专家</em>。</h2>
+        <p class="s-head__sub">这三类角色同样适用于其他企业使用 Frontis AI 的场景 —— 三类角色之间强协同。</p>
+      </div>
+    </header>
+
+    <div class="roles-grid reveal --stagger">
+      <article class="role">
+        <div class="role__index">ROLE · 01</div>
+        <div class="role__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00C1D4" stroke-width="2">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 22c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+          </svg>
+        </div>
+        <h3 class="role__name">业务专家</h3>
+        <p class="role__title">企业一线员工 · 研究员 · 专员</p>
+        <span class="role__chip">员工 · USE</span>
+        <p class="role__body">使用 Frontis AI 专家生成方案。将过去需多部门协作 <strong>1—2 周的工作</strong>，压缩至 <strong>1 小时出初稿</strong>。在工作台调用各类 AI 专家 Agent，像拥有一支随时在线的专家团队。</p>
+      </article>
+
+      <article class="role --boss">
+        <div class="role__index">ROLE · 02</div>
+        <div class="role__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00C1D4" stroke-width="2">
+            <circle cx="9" cy="9" r="3"/>
+            <circle cx="17" cy="9" r="3"/>
+            <path d="M3 21c0-4 2.7-7 6-7s6 3 6 7"/>
+            <path d="M11 21c0-4 2.7-7 6-7s6 3 6 7"/>
+          </svg>
+        </div>
+        <h3 class="role__name">决策者</h3>
+        <p class="role__title">直属领导 · 部门主管 · CEO</p>
+        <span class="role__chip">老板 · DECIDE</span>
+        <p class="role__body">通过飞书实时给出反馈和决策，方案 <strong>秒级迭代</strong>。从"等待结果"到"实时介入"，决策链路大幅压缩。员工的反馈和使用行为，持续反哺 Agent 进化 —— 越用越好。</p>
+      </article>
+
+      <article class="role">
+        <div class="role__index">ROLE · 03</div>
+        <div class="role__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00C1D4" stroke-width="2">
+            <path d="M9 6l-6 6 6 6"/>
+            <path d="M15 6l6 6-6 6"/>
+          </svg>
+        </div>
+        <h3 class="role__name">开发者</h3>
+        <p class="role__title">企业 IT · Frontis Agent 工程师</p>
+        <span class="role__chip">FDE · BUILD</span>
+        <p class="role__body">打造、部署、管理 AI 专家，持续运营迭代。让 AI 专家在业务中 <strong>自主进化</strong>，交付有持续成长能力的系统。员工经验通过 Skill 蒸馏沉淀到专属 Agent。</p>
+      </article>
+    </div>
+
+    <div class="roles-foot reveal">
+      <span class="roles-foot__label">CO-OP RESULT</span>
+      <span>三类角色之间强协同 —— 价值飞轮：专家通过 CIP 协同 → 修正产生高价值信号 → Evolving Engine 转化为知识更新 → Agent 判断力提升 → 价值指数级增长。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 08 VALUE LOOP ===================== -->
+<section class="section loop" aria-label="价值闭环">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>08 / VALUE LOOP</span> 研 · 产 · 供 · 销</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">企业决策的 <em>"自动驾驶"</em> 系统，<br>贯穿 <em>"研 · 产 · 供 · 销"</em> 价值闭环</h2>
+        <p class="s-head__sub">价值公式：【深度（复杂度）+ 密度（场景频率）+ 宽度（上下文）】× 协同（领导决策 → 基层执行）。</p>
+      </div>
+    </header>
+
+    <div class="loop-grid reveal --stagger">
+      <article class="loop-card">
+        <div class="loop-card__index">01 · R&D</div>
+        <div class="loop-card__hero">研</div>
+        <h3 class="loop-card__title">研究开发</h3>
+        <div class="loop-card__metric">
+          <div class="loop-card__metric-row">研究原创性提升 <em>20%</em></div>
+          <div class="loop-card__metric-row">新品研发周期降低 <em class="--orange">30%</em></div>
+        </div>
+        <div class="loop-card__big --orange">20<small>%</small></div>
+        <div class="loop-card__cap">AI 辅助文献综述与创新发现</div>
+      </article>
+
+      <article class="loop-card">
+        <div class="loop-card__index">02 · PRODUCTION</div>
+        <div class="loop-card__hero">产</div>
+        <h3 class="loop-card__title">生产建造</h3>
+        <div class="loop-card__metric">
+          <div class="loop-card__metric-row"><em class="--orange">30 min</em> 编制复杂约束最优计划</div>
+          <div class="loop-card__metric-row">工程延误受控率 <em>100%</em></div>
+          <div class="loop-card__metric-row">每项目提效 <em>30 万</em></div>
+        </div>
+        <div class="loop-card__big">30<small>min</small></div>
+        <div class="loop-card__cap">复杂最优计划编制</div>
+      </article>
+
+      <article class="loop-card">
+        <div class="loop-card__index">03 · SUPPLY</div>
+        <div class="loop-card__hero">供</div>
+        <h3 class="loop-card__title">供应保障</h3>
+        <div class="loop-card__metric">
+          <div class="loop-card__metric-row">复杂约束 <em>智能调度</em></div>
+          <div class="loop-card__metric-row">复杂因素的 <em>预测</em></div>
+        </div>
+        <div class="loop-card__big">30<small>%</small></div>
+        <div class="loop-card__cap">新品研发周期缩短</div>
+      </article>
+
+      <article class="loop-card">
+        <div class="loop-card__index">04 · SALES</div>
+        <div class="loop-card__hero">销</div>
+        <h3 class="loop-card__title">市场营销</h3>
+        <div class="loop-card__metric">
+          <div class="loop-card__metric-row"><em class="--orange">1600+</em> KOS 管理</div>
+          <div class="loop-card__metric-row">内容生成 · 营销转化</div>
+        </div>
+        <div class="loop-card__big">1600<small>+</small></div>
+        <div class="loop-card__cap">KOS 管理规模 · 内容生成</div>
+      </article>
+    </div>
+
+    <div class="value-formula reveal">
+      <span class="value-formula__tag">VALUE FORMULA</span>
+      <span class="value-formula__formula"><em>Value</em> = f(<em>Depth</em> × <em>Knowledge</em> × <em>Time</em>) ·· <b>飞轮效应</b>：价值随使用超线性增长</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 09 EDITIONS ===================== -->
+<section class="section editions" id="editions" aria-label="三个版本">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>09 / EDITIONS</span> 一个产品 · 三类服务</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">陪伴企业 <em>成长</em> 的<br>发展路线</h2>
+        <p class="s-head__sub">三个版本无阻碍升级切换，从个人版起步，随业务规模随时升级 —— 一套产品 × 提供三类服务 × 伴随企业成长 = 服务模式升级。</p>
+      </div>
+    </header>
+
+    <div class="editions-grid reveal --stagger">
+      <article class="edition --starter">
+        <span class="edition__band">直接下载 · 应用内付费</span>
+        <div class="edition__body">
+          <h3 class="edition__name">个人版</h3>
+          <span class="edition__tag">Leadeep APP · for Solo</span>
+          <p class="edition__detail">个人 / 小团队低门槛体验，按积分使用，随时开始。</p>
+          <ul class="edition__list">
+            <li>开箱即用 · 手机号验证码登录</li>
+            <li>行业 Agent 包直接调用</li>
+            <li>积分计费 · 灵活消费</li>
+            <li>PLG 漏斗入口 · 升级无阻碍</li>
+          </ul>
+          <div class="edition__price">
+            <strong>10K+</strong>
+            <small>面向公司老板 · 2027 目标</small>
+          </div>
+          <a href="#cta" class="edition__cta"><span>免费开始</span></a>
+        </div>
+      </article>
+
+      <article class="edition --featured">
+        <span class="edition__band">线上订阅 · 开箱即用</span>
+        <div class="edition__body">
+          <h3 class="edition__name">团队版</h3>
+          <span class="edition__tag">Agent 专家团 · for Growing</span>
+          <p class="edition__detail">成长型企业 / 中小企业多人协同，Agent 共享，统一管理。</p>
+          <ul class="edition__list">
+            <li>多人协同 · Agent 共享</li>
+            <li>Agent 专家团 + FDE 服务</li>
+            <li>衔远运营 · 生态定制</li>
+            <li>领衔销售核心标品</li>
+          </ul>
+          <div class="edition__price">
+            <strong>1K+</strong>
+            <small>聚焦区域 · 成长企业</small>
+          </div>
+          <a href="#cta" class="edition__cta"><span>申请演示</span></a>
+        </div>
+      </article>
+
+      <article class="edition">
+        <span class="edition__band">专属部署 · 自主可控</span>
+        <div class="edition__body">
+          <h3 class="edition__name">私有化部署</h3>
+          <span class="edition__tag">Skill+ Platform · for Enterprise</span>
+          <p class="edition__detail">大型企业 / 国央企 / KA 客户 —— 数据不出门，深度定制，完全自主掌控。</p>
+          <ul class="edition__list">
+            <li>数据不出企业 · 完全自主</li>
+            <li>客户运营 · 深度定制</li>
+            <li>高价值行业 SKILL + 平台</li>
+            <li>HiAgent 适配 · 远见交付标的</li>
+          </ul>
+          <div class="edition__price">
+            <strong>100</strong>
+            <small>聚焦行业 · KA 大客户</small>
+          </div>
+          <a href="#cta" class="edition__cta"><span>商务合作</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10 FOUNDER ===================== -->
+<section class="section founder" id="founder" aria-label="创始人">
+  <div class="section__inner">
+    <header class="s-head reveal">
+      <div>
+        <div class="s-head__index"><span>10 / MIND</span> 灵魂人物</div>
+      </div>
+      <div>
+        <h2 class="s-head__title">让技术保持 <em>全球领先</em><br>的核心源动力</h2>
+        <p class="s-head__sub">创始人 · 周伯文教授 —— 人工智能领域前沿战略科学家。负责让战略、技术、资源引领和托举核心能力，把技术变成高价值产品，0→1 价值创造，1→N 价值实现。</p>
+      </div>
+    </header>
+
+    <div class="founder-grid reveal">
+      <div class="founder-portrait">
+        <div class="founder-portrait__top">
+          <div class="founder-portrait__index">FOUNDER · CHIEF SCIENTIST</div>
+          <h3 class="founder-portrait__abstract">让 AI<br>跨过<br><em>那条线。</em></h3>
+        </div>
+        <div class="founder-portrait__bottom">
+          <div class="founder-portrait__name">周伯文 教授</div>
+          <div class="founder-portrait__role">FRONTIS 创始人 · 上海 AI Lab 主任 · 清华大学惠妍讲席教授</div>
+        </div>
+      </div>
+
+      <div class="founder-content">
+        <h3 class="founder-headline">Transformer 架构理论 <em>奠基人之一</em>，学术成果被引超 28,000 次。</h3>
+
+        <div class="founder-creds">
+          <div class="founder-cred">
+            <div class="founder-cred__tag">国家战略</div>
+            <div class="founder-cred__title">国家 AI 战略引领者</div>
+            <div class="founder-cred__detail">深度参与国家人工智能顶层设计与战略规划，包括《"人工智能+"行动意见》起草及"十五五"规划等。</div>
+          </div>
+          <div class="founder-cred">
+            <div class="founder-cred__tag">学术</div>
+            <div class="founder-cred__title">IEEE / CAAI Fellow</div>
+            <div class="founder-cred__detail">现任上海人工智能实验室主任 / 首席科学家，新一代人工智能国家科技重大专项行政总指挥。</div>
+          </div>
+          <div class="founder-cred">
+            <div class="founder-cred__tag">产业</div>
+            <div class="founder-cred__title">卓越产业领袖</div>
+            <div class="founder-cred__detail">历任 IBM Watson 人工智能基础研究院院长、京东集团高级副总裁、集团技术委员会主席及京东云与 AI 总裁。</div>
+          </div>
+          <div class="founder-cred">
+            <div class="founder-cred__tag">团队</div>
+            <div class="founder-cred__title">核心班子全明星</div>
+            <div class="founder-cred__detail">CEO 任成元（原京东科技副总裁）· CTO 张开颜（清华博士）· 业务总裁马劲（原中国电子云执行总裁）· 首席科学家丁宁（清华助理教授）。</div>
+          </div>
+        </div>
+
+        <div class="founder-quote">
+          <strong>THOUGHT LEADERSHIP</strong> · 周伯文《以通专融合方式构建 AGI —— 路径与关键问题》2025 ——<br>不是事后追认的 positioning，而是 <em>2016 起步 · 2023 成文 · 2026 规模化验证</em> 的连续技术判断。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11 CTA ===================== -->
+<section class="cta-section" id="cta" aria-label="跨过那条线">
+  <div class="cta-section__inner">
+    <h2 class="cta-section__display reveal">
+      跨过 <em>那条线。</em>
+      <b>CROSS THE THRESHOLD.</b>
+    </h2>
+    <div class="cta-section__rail reveal">
+      <p class="cta-section__sub">让你的企业从『知道 AI 时代来了』跃迁至『已经活在 AI 时代里』。我们为你打造一支随业务一起生长的 AI 专家团队。</p>
+      <div class="cta-section__btns">
+        <a href="mailto:contact@frontis.cn" class="btn-primary">申请演示</a>
+        <a href="mailto:partnership@frontis.cn" class="btn-ghost">商务合作</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand-block">
+        <svg viewBox="0 0 170 137" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="height:42px;">
+          <circle cx="84.7" cy="68.34" r="66.21" transform="rotate(180 84.7 68.34)" stroke="white" stroke-width="4.27"/>
+          <path d="M149.59 78.89c0 7.5-1.66 13.14-4.87 20.07-3.22 6.93-7.93 13.22-13.88 18.52-5.94 5.3-13 9.51-20.76 12.38-7.77 2.87-16.09 4.35-24.5 4.35-8.4 0-16.73-1.48-24.49-4.35-7.77-2.87-14.82-7.08-20.77-12.38-5.94-5.3-10.65-11.59-13.87-18.52-3.22-6.93-4.87-12.57-4.87-20.07h128Z" fill="white"/>
+          <line x1="0" y1="83.39" x2="169.68" y2="83.39" stroke="#00C1D4" stroke-width="12.81"/>
+        </svg>
+        <div class="footer__brand-cn">衔远科技</div>
+        <div class="footer__brand-en">FRONTIS · INTELLIGENT QUANTUM LEAP</div>
+        <p class="footer__brand-line">让企业从『知道 AI 时代来了』跃迁至 <em>『已经活在 AI 时代里』</em> 的那个力量。</p>
+      </div>
+
+      <div>
+        <div class="footer__col-head">PRODUCT</div>
+        <ul class="footer__list">
+          <li><a href="#architecture">Frontis CIP</a></li>
+          <li><a href="#architecture">Frontis EXP</a></li>
+          <li><a href="#architecture">Frontis EOS</a></li>
+          <li><a href="#editions">三个版本</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer__col-head">STRATEGY</div>
+        <ul class="footer__list">
+          <li><a href="#position">L4 战略占位</a></li>
+          <li><a href="#manifesto">智能跃迁理念</a></li>
+          <li><a href="#scenarios">应用场景</a></li>
+          <li><a href="#founder">核心团队</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer__col-head">CONTACT</div>
+        <ul class="footer__list">
+          <li><a href="mailto:contact@frontis.cn">contact@frontis.cn</a></li>
+          <li><a href="mailto:partnership@frontis.cn">partnership@frontis.cn</a></li>
+          <li><a href="mailto:careers@frontis.cn">careers@frontis.cn</a></li>
+          <li>上海 · 北京 · 中国</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2026 衔远科技 FRONTIS · ALL RIGHTS RESERVED · 沪ICP备XXXXXXX号</span>
+      <span class="footer__bottom-state">SYSTEM ONLINE · V0.7 · 2026.05</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   FRONTIS · interaction layer
+   No libraries — vanilla JS, deterministic motion only
+   ============================================================ */
+(function() {
+  'use strict';
+  var doc = document.documentElement;
+
+  // 1. Hero load sequence — single hard reveal
+  // 0-300ms 积聚 → 300-700ms 跃迁 → 700-1100ms 稳定
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      document.body.classList.add('is-loaded');
+    });
+  });
+
+  // 2. Scroll reveal — IntersectionObserver, no fade, single hard cut
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('--in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+    revealEls.forEach(function(el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function(el) { el.classList.add('--in'); });
+  }
+
+  // 3. Threshold tracker — repositions to current scroll-attached layer.
+  // The Edge follows: nav baseline (top:64px) by default.
+  // On hero scroll-out, we leave it at top:0 of viewport for the rest of session.
+  var tracker = document.querySelector('.threshold-tracker');
+  var hero = document.querySelector('.hero');
+  if (tracker && hero) {
+    var ticking = false;
+    function update() {
+      var heroBottom = hero.getBoundingClientRect().bottom;
+      if (heroBottom < 80) {
+        tracker.style.top = '64px';
+      } else {
+        tracker.style.top = '64px';
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // 4. Smooth scroll for in-page links — uses native, but applies precision-stop
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var id = a.getAttribute('href');
+      if (id.length > 1) {
+        var t = document.querySelector(id);
+        if (t) {
+          e.preventDefault();
+          var top = t.getBoundingClientRect().top + window.pageYOffset - 56;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  // 5. Number count-up for stats — only on intersect, single execution, hard stop on integer
+  var countEls = document.querySelectorAll('[data-count]');
+  if ('IntersectionObserver' in window && countEls.length) {
+    var io2 = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (!e.isIntersecting) return;
+        io2.unobserve(e.target);
+        var el = e.target;
+        var target = parseFloat(el.dataset.count);
+        var dur = 980;
+        var start = performance.now();
+        function step(now) {
+          var p = Math.min((now - start) / dur, 1);
+          var ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+          el.textContent = Math.round(target * ease);
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = target;
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    countEls.forEach(function(el) { io2.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>
