@@ -2105,49 +2105,51 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
    open, plus a small Y translate. NO opacity fade.
    ============================================================ */
 .reveal {
-  clip-path: inset(0 100% 0 0);
-  -webkit-clip-path: inset(0 100% 0 0);
+  /* Initial state: opacity + translate only.
+     We do NOT use clip-path: inset(0 100% 0 0) here because that
+     zeroes the element's intersection rect → IntersectionObserver
+     reports ratio 0 → callback never fires → --in is never added →
+     self-locking dead state. (Diagnosed 2026-05-06, was an inherited bug.)
+     Brand hard-cut feel still comes through via leap-curve easing
+     and a fast clip-path stage applied on --in. */
+  opacity: 0;
   transform: translateY(18px);
-  transition: clip-path 900ms var(--leap), transform 900ms var(--leap);
-  will-change: clip-path, transform;
+  transition:
+    opacity 760ms var(--leap),
+    transform 900ms var(--leap),
+    clip-path 900ms var(--leap);
+  will-change: opacity, transform;
 }
 .reveal.--in {
+  opacity: 1;
   clip-path: inset(0 0 0 0);
   -webkit-clip-path: inset(0 0 0 0);
   transform: none;
 }
 /* Variant: from below — bottom-up cut (matches "rising past threshold") */
 .reveal.--up {
-  clip-path: inset(100% 0 0 0);
-  -webkit-clip-path: inset(100% 0 0 0);
   transform: translateY(28px);
 }
 .reveal.--up.--in {
-  clip-path: inset(0 0 0 0);
-  -webkit-clip-path: inset(0 0 0 0);
   transform: none;
 }
 /* Variant: drop from above — top-down cut */
 .reveal.--down {
-  clip-path: inset(0 0 100% 0);
-  -webkit-clip-path: inset(0 0 100% 0);
   transform: translateY(-12px);
 }
 .reveal.--down.--in {
-  clip-path: inset(0 0 0 0);
-  -webkit-clip-path: inset(0 0 0 0);
   transform: none;
 }
 
 .reveal.--stagger > * {
-  clip-path: inset(0 100% 0 0);
-  -webkit-clip-path: inset(0 100% 0 0);
+  opacity: 0;
   transform: translateY(16px);
-  transition: clip-path 760ms var(--leap), transform 760ms var(--leap);
+  transition:
+    opacity 620ms var(--leap),
+    transform 760ms var(--leap);
 }
 .reveal.--in.--stagger > * {
-  clip-path: inset(0 0 0 0);
-  -webkit-clip-path: inset(0 0 0 0);
+  opacity: 1;
   transform: none;
 }
 .reveal.--stagger > *:nth-child(1) { transition-delay: 0ms; }
@@ -2365,8 +2367,8 @@ body.is-loaded #hero-canvas { opacity: 1; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reveal { clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
-  .reveal.--stagger > * { clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
+  .reveal { opacity: 1 !important; clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
+  .reveal.--stagger > * { opacity: 1 !important; clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
   body.is-loaded .threshold-tracker { transform: none; }
   .hero__display-line { animation: none !important; opacity: 1 !important; transform: none !important; }
   .marquee-track { animation: none !important; }
@@ -3465,6 +3467,18 @@ body.is-loaded #hero-canvas { opacity: 1; }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(function(el) { rIo.observe(el); });
+
+    /* Safety net: if any .reveal is already inside viewport when the page
+       loads but IO hasn't fired (e.g. because the element's geometry has
+       been clipped to zero by some style), force-reveal it after 600ms.
+       Cheap insurance against the self-locking hidden state we hit before. */
+    setTimeout(function() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      document.querySelectorAll('.reveal:not(.--in)').forEach(function(el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) el.classList.add('--in');
+      });
+    }, 600);
   } else {
     document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('--in'); });
   }
