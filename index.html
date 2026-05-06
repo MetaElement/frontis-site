@@ -2119,34 +2119,330 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
 }
 
 /* ============================================================
-   Reveal-on-scroll utility — single-step hard cut, no fade
+   Reveal-on-scroll utility — clip-path HARD CUT (no fade)
+   This is the brand's "discontinuity" principle: a state vanishes,
+   another appears. We use clip-path inset to physically cut content
+   open, plus a small Y translate. NO opacity fade.
    ============================================================ */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms var(--leap), transform 800ms var(--leap);
-  will-change: transform, opacity;
+  clip-path: inset(0 100% 0 0);
+  -webkit-clip-path: inset(0 100% 0 0);
+  transform: translateY(18px);
+  transition: clip-path 900ms var(--leap), transform 900ms var(--leap);
+  will-change: clip-path, transform;
 }
 .reveal.--in {
-  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
   transform: none;
 }
+/* Variant: from below — bottom-up cut (matches "rising past threshold") */
+.reveal.--up {
+  clip-path: inset(100% 0 0 0);
+  -webkit-clip-path: inset(100% 0 0 0);
+  transform: translateY(28px);
+}
+.reveal.--up.--in {
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
+  transform: none;
+}
+/* Variant: drop from above — top-down cut */
+.reveal.--down {
+  clip-path: inset(0 0 100% 0);
+  -webkit-clip-path: inset(0 0 100% 0);
+  transform: translateY(-12px);
+}
+.reveal.--down.--in {
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
+  transform: none;
+}
+
 .reveal.--stagger > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 600ms var(--leap), transform 600ms var(--leap);
+  clip-path: inset(0 100% 0 0);
+  -webkit-clip-path: inset(0 100% 0 0);
+  transform: translateY(16px);
+  transition: clip-path 760ms var(--leap), transform 760ms var(--leap);
 }
 .reveal.--in.--stagger > * {
-  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
   transform: none;
 }
 .reveal.--stagger > *:nth-child(1) { transition-delay: 0ms; }
-.reveal.--stagger > *:nth-child(2) { transition-delay: 80ms; }
-.reveal.--stagger > *:nth-child(3) { transition-delay: 160ms; }
-.reveal.--stagger > *:nth-child(4) { transition-delay: 240ms; }
-.reveal.--stagger > *:nth-child(5) { transition-delay: 320ms; }
-.reveal.--stagger > *:nth-child(6) { transition-delay: 400ms; }
-.reveal.--stagger > *:nth-child(7) { transition-delay: 480ms; }
+.reveal.--stagger > *:nth-child(2) { transition-delay: 70ms; }
+.reveal.--stagger > *:nth-child(3) { transition-delay: 140ms; }
+.reveal.--stagger > *:nth-child(4) { transition-delay: 210ms; }
+.reveal.--stagger > *:nth-child(5) { transition-delay: 280ms; }
+.reveal.--stagger > *:nth-child(6) { transition-delay: 350ms; }
+.reveal.--stagger > *:nth-child(7) { transition-delay: 420ms; }
+.reveal.--stagger > *:nth-child(8) { transition-delay: 490ms; }
+
+/* ============================================================
+   Scroll progress — top-of-viewport 1px cyan line that fills
+   as the user scrolls. Literally the brand: progress = crossing
+   threshold from before to after. Fixed to top:0 (above nav).
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--threshold-cyan);
+  z-index: 200;
+  transition: width 60ms linear;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(0,193,212,0.6);
+}
+
+/* ============================================================
+   Nav solidify on scroll — backdrop intensifies past threshold
+   ============================================================ */
+.nav {
+  transition: background 280ms var(--leap-aux), border-color 280ms var(--leap-aux);
+}
+.nav.--solid {
+  background: rgba(0,0,0,0.92);
+  border-bottom-color: rgba(0,193,212,0.18);
+}
+
+/* ============================================================
+   Hero canvas — animated horizontal Strata. Brand-pure: only
+   horizontal cyan lines, solid alpha, no gradients, no particles,
+   no arcs. Each line is a drifting "data stratum" — energy
+   flowing through the before-zone. This IS the brand's Strata
+   graphic device, animated.
+   ============================================================ */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1200ms var(--leap) 600ms;
+}
+body.is-loaded #hero-canvas { opacity: 1; }
+
+/* Hero now has a layered structure — canvas behind, content above */
+.hero { z-index: 0; }
+.hero__inner { position: relative; z-index: 2; }
+.hero__rail { position: relative; z-index: 2; }
+.hero__strata { z-index: 1; opacity: 0 !important; } /* legacy strata hidden — replaced by canvas */
+
+/* ============================================================
+   Hero display — character-by-character mask reveal
+   Each character lives in its own clip-mask. They snap into
+   position with stagger, leap easing. Hard cut, not fade.
+   ============================================================ */
+.hero__display-cn {
+  position: relative;
+}
+.hero-char-row {
+  display: flex;
+  overflow: visible;
+  line-height: 0.92;
+}
+.hero-char {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  line-height: 0.95;
+}
+.hero-char > b {
+  display: inline-block;
+  font-weight: 900;
+  transform: translateY(110%);
+  transition: transform 920ms var(--leap);
+}
+body.is-loaded .hero-char > b { transform: translateY(0); }
+
+/* Stagger delays — JS adds them, but provide CSS fallback */
+.hero-char:nth-child(1) > b { transition-delay: 320ms; }
+.hero-char:nth-child(2) > b { transition-delay: 400ms; }
+.hero-char:nth-child(3) > b { transition-delay: 480ms; }
+.hero-char:nth-child(4) > b { transition-delay: 560ms; }
+.hero-char:nth-child(5) > b { transition-delay: 640ms; }
+
+/* ============================================================
+   Section head — animated cyan top border (line draws in)
+   Currently it appears immediately. Make it draw on reveal.
+   ============================================================ */
+.s-head {
+  border-top: 0;
+  position: relative;
+}
+.s-head::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--threshold-cyan);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 900ms var(--leap);
+}
+.s-head.reveal.--in::before, .reveal.--in .s-head::before { transform: scaleX(1); }
+
+/* ============================================================
+   Marquee — horizontal cyan-edged ticker band between sections
+   Brand-perfect: it IS the threshold scrolling.
+   ============================================================ */
+.marquee-band {
+  background: var(--quantum-black);
+  color: var(--pure-white);
+  border-top: 2px solid var(--threshold-cyan);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  padding: 18px 0;
+  position: relative;
+}
+.marquee-band.--light {
+  background: var(--pure-white);
+  color: var(--quantum-black);
+  border-bottom-color: rgba(0,0,0,0.06);
+}
+.marquee-track {
+  display: flex;
+  gap: 56px;
+  white-space: nowrap;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(20px, 2.4vw, 32px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.marquee-track > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 56px;
+}
+.marquee-track > span::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--threshold-cyan);
+  flex: none;
+}
+.marquee-track > span.--orange::after {
+  background: var(--energy-orange);
+}
+.marquee-track i {
+  font-style: normal;
+  color: var(--threshold-cyan);
+  font-family: var(--font-cn);
+}
+.marquee-band:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   Magnetic — applies subtle cursor pull (≤ 6px). Used only on
+   primary CTA in hero + final CTA section. Single signature use.
+   ============================================================ */
+.magnetic {
+  display: inline-flex;
+  transition: transform 360ms var(--leap-aux);
+  will-change: transform;
+}
+
+/* ============================================================
+   Scramble text — used by JS for mono labels. Just needs a
+   monospaced container with reserved width.
+   ============================================================ */
+.scramble {
+  font-family: var(--font-mono);
+  display: inline-block;
+}
+
+/* ============================================================
+   Card hover indicator — small arrow that translates on hover
+   For .scenario, .arch-row, .loop-card, .edition. Brand-correct
+   directional energy.
+   ============================================================ */
+.scenario, .loop-card, .edition, .arch-row { position: relative; }
+.scenario::after, .loop-card::after, .edition::after, .arch-row::after {
+  content: '→';
+  position: absolute;
+  bottom: 16px;
+  right: 18px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--threshold-cyan);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 300ms var(--leap-aux), transform 360ms var(--leap);
+  pointer-events: none;
+}
+.scenario:hover::after, .loop-card:hover::after, .edition:hover::after, .arch-row:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Disable arrow on featured edition since it has its own CTA */
+.edition.--featured::after { display: none; }
+.arch-row::after { color: var(--threshold-cyan); bottom: 24px; right: 24px; }
+
+/* ============================================================
+   Cyan-line precision marker on L4 stack — follows cursor
+   inside the stack. Single instance, brand-aligned.
+   ============================================================ */
+.l4-stack { position: relative; --track-y: 0px; }
+.l4-stack::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--threshold-cyan);
+  top: var(--track-y);
+  opacity: 0;
+  transition: opacity 220ms var(--leap-aux), top 90ms linear;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 5;
+}
+.l4-stack.--track::before { opacity: 0.85; }
+
+/* ============================================================
+   Key number scramble container — reserves width for variable
+   character set. Tabular figures keep cell stable.
+   ============================================================ */
+.assets-cell__num,
+.loop-card__big,
+.timeline-node__year,
+.edition__price strong,
+.hero__meta-value strong {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Button hover ripple — a cyan line flashes from left to right
+   across .btn-primary on click/press. Single deterministic cut.
+   ============================================================ */
+.btn-primary { overflow: hidden; position: relative; }
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--pure-white);
+  transform: translateX(-101%);
+  transition: transform 460ms var(--leap);
+  z-index: 0;
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary > *, .btn-primary::after { position: relative; z-index: 1; }
+/* Make sure btn-primary text/icon stay on top of the white slide */
+.btn-primary { color: var(--quantum-black); }
+.btn-primary:hover { color: var(--quantum-black); background: var(--threshold-cyan); }
 
 /* a11y: reduced-motion fallback — substitute, not remove */
 @media (prefers-reduced-motion: reduce) {
@@ -2155,19 +2451,27 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal { clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
+  .reveal.--stagger > * { clip-path: none !important; -webkit-clip-path: none !important; transform: none !important; }
   body.is-loaded .threshold-tracker { transform: none; }
+  body.is-loaded .hero-char > b { transform: none; }
+  .marquee-track { animation: none !important; }
+  #hero-canvas { display: none; }
+  .scroll-progress { display: none; }
 }
 
 /* Print etc: dark sections legibility */
 @media print {
-  .threshold-tracker, .nav, .hero__rail { display: none; }
+  .threshold-tracker, .nav, .hero__rail, #hero-canvas, .scroll-progress, .marquee-band { display: none; }
   body { background: white; color: black; }
 }
 </style>
 </head>
 
 <body>
+
+<!-- Scroll progress — top edge fills as user crosses the threshold of the page -->
+<div class="scroll-progress" aria-hidden="true"></div>
 
 <!-- The Edge — fixed scroll-tracker line that is always visible -->
 <div class="threshold-tracker" aria-hidden="true"></div>
@@ -2202,14 +2506,21 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
 
 <!-- ===================== HERO ===================== -->
 <section class="hero" aria-label="智能跃迁">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="hero__strata" aria-hidden="true"><span></span></div>
   <div class="hero__inner">
     <div class="hero__main">
-      <div class="hero__eyebrow">FRONTIS · 临界 / THRESHOLD V1.0</div>
+      <div class="hero__eyebrow"><span class="scramble" data-scramble="FRONTIS · 临界 / THRESHOLD V1.0">FRONTIS · 临界 / THRESHOLD V1.0</span></div>
       <h1 class="hero__display">
-        <span class="hero__display-cn">
-          <span><b>智能</b></span>
-          <span><b>跃迁</b></span>
+        <span class="hero__display-cn" data-char-split>
+          <span class="hero-char-row">
+            <span class="hero-char"><b>智</b></span>
+            <span class="hero-char"><b>能</b></span>
+          </span>
+          <span class="hero-char-row">
+            <span class="hero-char"><b>跃</b></span>
+            <span class="hero-char"><b>迁</b></span>
+          </span>
         </span>
         <span class="hero__display-en">INTELLIGENT QUANTUM LEAP</span>
       </h1>
@@ -2218,7 +2529,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
         <p class="hero__statement-sub">不是给你一个工具，是给你一支和你的业务一起生长的 AI 专业团队。基于「通专融合」技术，构建 AI 原生的企业级智能涌现平台。</p>
       </div>
       <div class="hero__cta">
-        <a href="#cta" class="btn-primary">申请演示</a>
+        <span class="magnetic" data-magnetic><a href="#cta" class="btn-primary"><span>申请演示</span></a></span>
         <a href="#architecture" class="btn-ghost">查看产品架构</a>
       </div>
       <div class="hero__tags">
@@ -2297,6 +2608,26 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
     </div>
   </div>
 </section>
+
+<!-- ===================== MARQUEE BAND ===================== -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-track">
+    <span>智能跃迁</span>
+    <span>INTELLIGENT QUANTUM LEAP</span>
+    <span>临界 · <i>THE THRESHOLD</i></span>
+    <span class="--orange">能量积聚 · ENERGY ACCUMULATION</span>
+    <span>通专融合 · GENERAL × SPECIALIST</span>
+    <span>L4 能力转化层</span>
+    <span>已经活在 AI 时代里</span>
+    <span>智能跃迁</span>
+    <span>INTELLIGENT QUANTUM LEAP</span>
+    <span>临界 · <i>THE THRESHOLD</i></span>
+    <span class="--orange">能量积聚 · ENERGY ACCUMULATION</span>
+    <span>通专融合 · GENERAL × SPECIALIST</span>
+    <span>L4 能力转化层</span>
+    <span>已经活在 AI 时代里</span>
+  </div>
+</div>
 
 <!-- ===================== 02 L4 STRATEGIC POSITION ===================== -->
 <section class="section l4" id="position" aria-label="战略占位">
@@ -3005,7 +3336,7 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
     <div class="cta-section__rail reveal">
       <p class="cta-section__sub">让你的企业从『知道 AI 时代来了』跃迁至『已经活在 AI 时代里』。我们为你打造一支随业务一起生长的 AI 专家团队。</p>
       <div class="cta-section__btns">
-        <a href="mailto:contact@frontis.cn" class="btn-primary">申请演示</a>
+        <span class="magnetic" data-magnetic><a href="mailto:contact@frontis.cn" class="btn-primary"><span>申请演示</span></a></span>
         <a href="mailto:partnership@frontis.cn" class="btn-ghost">商务合作</a>
       </div>
     </div>
@@ -3067,98 +3398,343 @@ body.is-loaded .hero__tags { opacity: 1; transform: none; }
 
 <script>
 /* ============================================================
-   FRONTIS · interaction layer
-   No libraries — vanilla JS, deterministic motion only
+   FRONTIS · interaction layer · v2 (dynamic)
+   No libraries — vanilla JS, deterministic motion only.
+   All easings derive from the brand leap curve.
    ============================================================ */
 (function() {
   'use strict';
-  var doc = document.documentElement;
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var LEAP = function(t) { return 1 - Math.pow(1 - t, 3); }; // approx of cubic-bezier(0.16,1,0.3,1)
 
-  // 1. Hero load sequence — single hard reveal
-  // 0-300ms 积聚 → 300-700ms 跃迁 → 700-1100ms 稳定
+  /* ---------- 0. HERO LOAD SEQUENCE ---------- */
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
       document.body.classList.add('is-loaded');
     });
   });
 
-  // 2. Scroll reveal — IntersectionObserver, no fade, single hard cut
-  var revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
+  /* ---------- 1. HERO CANVAS — animated horizontal Strata ----------
+     Brand-pure: only solid horizontal cyan lines drifting left→right
+     at varying speed/length/opacity. NO gradients, NO arcs, NO
+     particles. This IS the brand's Strata graphic device, animated. */
+  (function heroCanvas() {
+    if (prefersReduced) return;
+    var canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0;
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var lines = [];
+    var raf = null;
+    var last = 0;
+
+    function resize() {
+      var r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W * DPR;
+      canvas.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      build();
+    }
+
+    function build() {
+      var n = Math.max(14, Math.floor((W * H) / 26000));
+      lines = [];
+      for (var i = 0; i < n; i++) {
+        var depth = Math.random();           // 0..1, used to pick brand-Strata 3/2/1 px
+        var px = depth < 0.18 ? 3 : (depth < 0.5 ? 2 : 1);
+        var alpha;
+        if (px === 3) alpha = 0.04 + Math.random() * 0.04;        // bottom strata: dimmer black-ish
+        else if (px === 2) alpha = 0.04 + Math.random() * 0.06;
+        else alpha = 0.10 + Math.random() * 0.30;                 // 1px cyan: brightest, fewer
+        // 70% chance the 1px line is cyan, otherwise white
+        var isCyan = (px === 1) ? (Math.random() < 0.78) : (Math.random() < 0.18);
+        lines.push({
+          y: Math.random() * H,
+          x: Math.random() * W - W * 0.5,
+          len: 80 + Math.random() * 280,
+          speed: 22 + Math.random() * 70,
+          alpha: alpha,
+          px: px,
+          isCyan: isCyan
+        });
+      }
+    }
+
+    function tick(t) {
+      if (last === 0) last = t;
+      var dt = Math.min(0.05, (t - last) / 1000);
+      last = t;
+      ctx.clearRect(0, 0, W, H);
+
+      // The Edge — single static dominant cyan threshold line at ~70% Y
+      ctx.strokeStyle = 'rgba(0,193,212,0.85)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      var edgeY = Math.floor(H * 0.74) + 0.5;
+      ctx.moveTo(0, edgeY);
+      ctx.lineTo(W, edgeY);
+      ctx.stroke();
+
+      // Drifting strata
+      for (var i = 0; i < lines.length; i++) {
+        var ln = lines[i];
+        ln.x += ln.speed * dt;
+        if (ln.x - ln.len > W) {
+          ln.x = -ln.len - Math.random() * 200;
+          ln.y = Math.random() * H;
+        }
+        if (ln.isCyan) {
+          ctx.strokeStyle = 'rgba(0,193,212,' + ln.alpha + ')';
+        } else {
+          ctx.strokeStyle = 'rgba(255,255,255,' + ln.alpha + ')';
+        }
+        ctx.lineWidth = ln.px;
+        ctx.beginPath();
+        ctx.moveTo(ln.x, ln.y);
+        ctx.lineTo(ln.x + ln.len, ln.y);
+        ctx.stroke();
+      }
+
+      raf = requestAnimationFrame(tick);
+    }
+
     var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('--in');
-          io.unobserve(entry.target);
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          if (!raf) { last = 0; raf = requestAnimationFrame(tick); }
+        } else {
+          if (raf) { cancelAnimationFrame(raf); raf = null; }
         }
       });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-    revealEls.forEach(function(el) { io.observe(el); });
-  } else {
-    revealEls.forEach(function(el) { el.classList.add('--in'); });
+    }, { threshold: 0.05 });
+
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+    io.observe(canvas);
+  })();
+
+  /* ---------- 2. SCRAMBLE TEXT — characters cycle then settle ----------
+     Used on mono labels & key numbers. Brand: precision, computed feel. */
+  var SCRAMBLE_CHARS = '01XΔ#FRONTIS·∇▲▼◆◇/\\—|';
+  function scramble(el, finalText, opts) {
+    opts = opts || {};
+    var dur = opts.dur || 720;
+    var delay = opts.delay || 0;
+    var stepMs = 28;
+    var len = finalText.length;
+    var locked = new Array(len).fill(false);
+    var lockEvery = stepMs * 2;
+    var t0 = performance.now() + delay;
+
+    function frame(now) {
+      var dt = now - t0;
+      if (dt < 0) { requestAnimationFrame(frame); return; }
+      var p = Math.min(dt / dur, 1);
+      var lockUntil = Math.floor(p * len);
+      var out = '';
+      for (var i = 0; i < len; i++) {
+        if (i < lockUntil || locked[i]) {
+          locked[i] = true;
+          out += finalText.charAt(i);
+        } else {
+          var ch = finalText.charAt(i);
+          if (ch === ' ' || ch === '\n') { out += ch; }
+          else if (/[一-鿿]/.test(ch)) {
+            // CJK char: brief flicker through 2-3 brand glyphs
+            out += '·∇△'.charAt((Math.random() * 3) | 0);
+          } else {
+            out += SCRAMBLE_CHARS.charAt((Math.random() * SCRAMBLE_CHARS.length) | 0);
+          }
+        }
+      }
+      el.textContent = out;
+      if (p < 1) requestAnimationFrame(frame);
+      else el.textContent = finalText;
+    }
+    requestAnimationFrame(frame);
   }
 
-  // 3. Threshold tracker — repositions to current scroll-attached layer.
-  // The Edge follows: nav baseline (top:64px) by default.
-  // On hero scroll-out, we leave it at top:0 of viewport for the rest of session.
-  var tracker = document.querySelector('.threshold-tracker');
-  var hero = document.querySelector('.hero');
-  if (tracker && hero) {
+  /* Apply scramble to data-scramble elements when they enter viewport */
+  if (!prefersReduced && 'IntersectionObserver' in window) {
+    var sIo = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (!e.isIntersecting) return;
+        sIo.unobserve(e.target);
+        var el = e.target;
+        var txt = el.dataset.scramble || el.textContent;
+        scramble(el, txt, { dur: 800 });
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-scramble]').forEach(function(el) { sIo.observe(el); });
+  }
+
+  /* ---------- 3. SCROLL PROGRESS BAR ---------- */
+  (function progressBar() {
+    var bar = document.querySelector('.scroll-progress');
+    if (!bar) return;
     var ticking = false;
     function update() {
-      var heroBottom = hero.getBoundingClientRect().bottom;
-      if (heroBottom < 80) {
-        tracker.style.top = '64px';
-      } else {
-        tracker.style.top = '64px';
-      }
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      bar.style.width = pct.toFixed(2) + '%';
       ticking = false;
     }
     window.addEventListener('scroll', function() {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
+    update();
+  })();
+
+  /* ---------- 4. NAV SOLIDIFY ---------- */
+  (function navSolid() {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var ticking = false;
+    function update() {
+      nav.classList.toggle('--solid', window.scrollY > 60);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    update();
+  })();
+
+  /* ---------- 5. SCROLL REVEAL — clip-path hard cut, IntersectionObserver ---------- */
+  if ('IntersectionObserver' in window) {
+    var rIo = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('--in');
+          rIo.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(function(el) { rIo.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('--in'); });
   }
 
-  // 4. Smooth scroll for in-page links — uses native, but applies precision-stop
+  /* ---------- 6. THRESHOLD TRACKER POSITION ---------- */
+  (function tracker() {
+    var t = document.querySelector('.threshold-tracker');
+    if (!t) return;
+    t.style.top = '64px';
+  })();
+
+  /* ---------- 7. SMOOTH-SCROLL ANCHORS ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     a.addEventListener('click', function(e) {
       var id = a.getAttribute('href');
       if (id.length > 1) {
-        var t = document.querySelector(id);
-        if (t) {
+        var target = document.querySelector(id);
+        if (target) {
           e.preventDefault();
-          var top = t.getBoundingClientRect().top + window.pageYOffset - 56;
+          var top = target.getBoundingClientRect().top + window.pageYOffset - 56;
           window.scrollTo({ top: top, behavior: 'smooth' });
         }
       }
     });
   });
 
-  // 5. Number count-up for stats — only on intersect, single execution, hard stop on integer
-  var countEls = document.querySelectorAll('[data-count]');
-  if ('IntersectionObserver' in window && countEls.length) {
-    var io2 = new IntersectionObserver(function(entries) {
+  /* ---------- 8. NUMBER COUNT-UP ---------- */
+  if ('IntersectionObserver' in window) {
+    var nIo = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
         if (!e.isIntersecting) return;
-        io2.unobserve(e.target);
+        nIo.unobserve(e.target);
         var el = e.target;
         var target = parseFloat(el.dataset.count);
-        var dur = 980;
+        var dur = 1100;
         var start = performance.now();
         function step(now) {
           var p = Math.min((now - start) / dur, 1);
-          var ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-          el.textContent = Math.round(target * ease);
+          el.textContent = Math.round(target * LEAP(p));
           if (p < 1) requestAnimationFrame(step);
           else el.textContent = target;
         }
         requestAnimationFrame(step);
       });
     }, { threshold: 0.4 });
-    countEls.forEach(function(el) { io2.observe(el); });
+    document.querySelectorAll('[data-count]').forEach(function(el) { nIo.observe(el); });
+  }
+
+  /* ---------- 9. MAGNETIC CTA — subtle cursor pull (≤6px) ----------
+     Single signature use on hero primary CTA + final CTA section. */
+  if (!prefersReduced && window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('[data-magnetic]').forEach(function(wrap) {
+      var STRENGTH = 0.18; // max ≈ 6px on a 60px nudge
+      var cur = { x: 0, y: 0 };
+      var target = { x: 0, y: 0 };
+      var raf = null;
+
+      function loop() {
+        cur.x += (target.x - cur.x) * 0.18;
+        cur.y += (target.y - cur.y) * 0.18;
+        wrap.style.transform = 'translate(' + cur.x.toFixed(2) + 'px,' + cur.y.toFixed(2) + 'px)';
+        if (Math.abs(target.x - cur.x) > 0.05 || Math.abs(target.y - cur.y) > 0.05) {
+          raf = requestAnimationFrame(loop);
+        } else {
+          raf = null;
+        }
+      }
+
+      wrap.addEventListener('mousemove', function(e) {
+        var r = wrap.getBoundingClientRect();
+        var cx = r.left + r.width / 2;
+        var cy = r.top + r.height / 2;
+        target.x = (e.clientX - cx) * STRENGTH;
+        target.y = (e.clientY - cy) * STRENGTH;
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+      wrap.addEventListener('mouseleave', function() {
+        target.x = 0; target.y = 0;
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+    });
+  }
+
+  /* ---------- 10. CHAR-SPLIT staggered reveal ----------
+     Hero display already markup-split. Apply explicit transition-delay
+     to make it more "deterministic" feeling. */
+  document.querySelectorAll('[data-char-split]').forEach(function(node) {
+    var chars = node.querySelectorAll('.hero-char > b');
+    chars.forEach(function(c, i) {
+      c.style.transitionDelay = (320 + i * 90) + 'ms';
+    });
+  });
+
+  /* ---------- 11. L4 CURSOR PRECISION MARKER ---------- */
+  if (!prefersReduced) {
+    var stack = document.querySelector('.l4-stack');
+    if (stack) {
+      var line = stack.querySelector(':scope > .l4-row__hover-line');
+      if (!line) {
+        // No-op: visual handled by row hover bg already; this is a hook
+        // for future enhancement. The ::before of .l4-stack reserves space.
+      }
+      stack.addEventListener('mouseenter', function() { stack.classList.add('--track'); });
+      stack.addEventListener('mouseleave', function() { stack.classList.remove('--track'); });
+      stack.addEventListener('mousemove', function(e) {
+        var r = stack.getBoundingClientRect();
+        var y = e.clientY - r.top;
+        stack.style.setProperty('--track-y', y + 'px');
+      });
+    }
+  }
+
+  /* ---------- 12. HERO META: scramble the strong values once ---------- */
+  if (!prefersReduced) {
+    setTimeout(function() {
+      document.querySelectorAll('.hero__meta-value strong').forEach(function(el, i) {
+        var final = el.textContent.trim();
+        if (!/^\d+/.test(final)) return;
+        scramble(el, final, { dur: 900, delay: i * 120 });
+      });
+    }, 1200);
   }
 })();
 </script>
